@@ -17,4 +17,9 @@ public class UserEntity {
     private String username;
     private String password;
     private String role; // "USER" 또는 "COMPANY"
+    private String name; // 개인회원의 이름
+    private String birthDate; // 개인회원의 생년월일
+    private String email;
+    private String phone;
+    private String businessNumber; // 기업회원의 사업자번호
 }
