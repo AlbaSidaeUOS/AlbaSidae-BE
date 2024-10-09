@@ -1,0 +1,75 @@
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile default=\"true\" name=\"Default\" enabled=\"true\" />\r\n      <profile name=\"Gradle Imported\" enabled=\"true\">\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <processorPath useClasspath=\"false\">\r\n          <entry name=\"$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.20/18bcea7d5df4d49227b4a0743a536208ce4825bb/lombok-1.18.20.jar\" />\r\n        </processorPath>\r\n        <module name=\"alba-be.main\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision 8b1124a2dbb9ab798f22d45ddf22aedcb63c4c50)
++++ b/.idea/compiler.xml	(date 1728449951803)
+@@ -3,13 +3,6 @@
+   <component name="CompilerConfiguration">
+     <annotationProcessing>
+       <profile default="true" name="Default" enabled="true" />
+-      <profile name="Gradle Imported" enabled="true">
+-        <outputRelativeToContentRoot value="true" />
+-        <processorPath useClasspath="false">
+-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.20/18bcea7d5df4d49227b4a0743a536208ce4825bb/lombok-1.18.20.jar" />
+-        </processorPath>
+-        <module name="alba-be.main" />
+-      </profile>
+     </annotationProcessing>
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CodeInsightWorkspaceSettings\">\r\n    <option name=\"optimizeImportsOnTheFly\" value=\"true\" />\r\n  </component>\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"FrameworkDetectionExcludesConfiguration\">\r\n    <file type=\"web\" url=\"file://$PROJECT_DIR$/alba-be\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 8b1124a2dbb9ab798f22d45ddf22aedcb63c4c50)
++++ b/.idea/misc.xml	(date 1728449955580)
+@@ -1,12 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="CodeInsightWorkspaceSettings">
+-    <option name="optimizeImportsOnTheFly" value="true" />
+-  </component>
+-  <component name="ExternalStorageConfigurationManager" enabled="true" />
+-  <component name="FrameworkDetectionExcludesConfiguration">
+-    <file type="web" url="file://$PROJECT_DIR$/alba-be" />
+-  </component>
+   <component name="ProjectRootManager">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectModuleManager\">\r\n    <modules>\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/modules/alba-be.main.iml\" filepath=\"$PROJECT_DIR$/.idea/modules/alba-be.main.iml\" />\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/albasidaeBE.iml\" filepath=\"$PROJECT_DIR$/.idea/albasidaeBE.iml\" />\r\n    </modules>\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+--- a/.idea/modules.xml	(revision 8b1124a2dbb9ab798f22d45ddf22aedcb63c4c50)
++++ b/.idea/modules.xml	(date 1728449958973)
+@@ -3,7 +3,6 @@
+   <component name="ProjectModuleManager">
+     <modules>
+       <module fileurl="file://$PROJECT_DIR$/.idea/modules/alba-be.main.iml" filepath="$PROJECT_DIR$/.idea/modules/alba-be.main.iml" />
+-      <module fileurl="file://$PROJECT_DIR$/.idea/albasidaeBE.iml" filepath="$PROJECT_DIR$/.idea/albasidaeBE.iml" />
+     </modules>
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/modules/alba-be.main.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module version=\"4\">\r\n  <component name=\"AdditionalModuleElements\">\r\n    <content url=\"file://$MODULE_DIR$/../../alba-be/build/generated/sources/annotationProcessor/java/main\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/../../alba-be/build/generated/sources/annotationProcessor/java/main\" isTestSource=\"false\" generated=\"true\" />\r\n    </content>\r\n  </component>\r\n</module>
+===================================================================
+diff --git a/.idea/modules/alba-be.main.iml b/.idea/modules/alba-be.main.iml
+--- a/.idea/modules/alba-be.main.iml	(revision 8b1124a2dbb9ab798f22d45ddf22aedcb63c4c50)
++++ b/.idea/modules/alba-be.main.iml	(date 1728449946989)
+@@ -1,5 +1,4 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<module version="4">
+   <component name="AdditionalModuleElements">
+     <content url="file://$MODULE_DIR$/../../alba-be/build/generated/sources/annotationProcessor/java/main">
+       <sourceFolder url="file://$MODULE_DIR$/../../alba-be/build/generated/sources/annotationProcessor/java/main" isTestSource="false" generated="true" />
