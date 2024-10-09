@@ -49,7 +49,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void registerUser(String username, String password, String role, String name, String birthDate, String email, String phone, String businessNumber) {
+    public UserEntity registerUser(String username, String password, String role, String name, String birthDate, String email, String phone, String businessNumber) {
         UserEntity user = new UserEntity();
         user.setUsername(username);
         user.setPassword(encodePassword(password)); // 비밀번호 인코딩
@@ -60,6 +60,8 @@ public class UserService {
         user.setPhone(phone);
         user.setBusinessNumber(businessNumber);
         userRepository.save(user);
+
+        return userRepository.save(user);
     }
 
     public UserEntity login(String username, String password) {
