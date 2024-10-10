@@ -4,22 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1434e906-687a-4e5f-8c00-6f4fde982e30" name="변경" comment="s">
-      <change afterPath="$PROJECT_DIR$/alba-be/src/main/java/albabe/albabe/domain/config/WebConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/alba-be/src/main/java/albabe/albabe/domain/dto/ApiResponse.java" afterDir="false" />
+    <list default="true" id="1434e906-687a-4e5f-8c00-6f4fde982e30" name="변경" comment="cansignup">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/AlbaBeApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/AlbaBeApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/controller/JobPostController.class" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/controller/JobPostController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/entity/JobPostEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/entity/JobPostEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/entity/UserEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/entity/UserEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/repository/JobPostRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/repository/JobPostRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/repository/UserRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/service/JobPostService.class" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/service/JobPostService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/classes/java/main/albabe/albabe/domain/service/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/src/main/java/albabe/albabe/domain/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/src/main/java/albabe/albabe/domain/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alba-be/src/main/java/albabe/albabe/domain/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/alba-be/src/main/java/albabe/albabe/domain/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +40,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="branch1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,6 +55,16 @@
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/gart09/albasidaeBE.git&quot;,
     &quot;accountId&quot;: &quot;445ad163-fe50-4733-85e9-65dd92523dc6&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;gart09&quot;,
+    &quot;repository&quot;: &quot;albasidaeBE&quot;
   }
 }</component>
   <component name="ProblemsViewState">
@@ -81,28 +78,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.AlbaBeApplicationTests.testUserExists.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.alba-be 빌드.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.AlbaBeApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;branch1&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/sea58/OneDrive/문서/GitHub/albasidaeBE&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.AlbaBeApplicationTests.testUserExists.executor": "Run",
+    "Gradle.alba-be 빌드.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.AlbaBeApplication.executor": "Run",
+    "git-widget-placeholder": "branch1에 #2개",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/sea58/OneDrive/문서/GitHub/albasidaeBE/alba-be/build.gradle",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "프로젝트",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Spring Boot.AlbaBeApplication">
     <configuration name="AlbaBeApplicationTests.testUserExists" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -162,6 +162,9 @@
       <workItem from="1728447866964" duration="1939000" />
       <workItem from="1728449842664" duration="5368000" />
       <workItem from="1728467941044" duration="100000" />
+      <workItem from="1728468050215" duration="590000" />
+      <workItem from="1728468655521" duration="667000" />
+      <workItem from="1728469762644" duration="524000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <option name="closed" value="true" />
@@ -179,7 +182,23 @@
       <option name="project" value="LOCAL" />
       <updated>1728450019226</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="cansignup">
+      <option name="closed" value="true" />
+      <created>1728468300819</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1728468300819</updated>
+    </task>
+    <task id="LOCAL-00004" summary="cansignup">
+      <option name="closed" value="true" />
+      <created>1728468344777</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1728468344777</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +217,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="s" />
-    <option name="LAST_COMMIT_MESSAGE" value="s" />
+    <MESSAGE value="cansignup" />
+    <option name="LAST_COMMIT_MESSAGE" value="cansignup" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
