@@ -21,7 +21,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // CORS 설정
                 .csrf(csrf -> csrf.disable())  // CSRF 비활성화, RESTful API에서는 자주 사용
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/public/**", "/login", "/register", "/api/users/register").permitAll()  // 인증 없이 접근 가능
+                        .requestMatchers("/", "/public/**", "/login", "/register", "/api/users/register", "/h2-console/**").permitAll()  // 인증 없이 접근 가능
                         .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )
                 .httpBasic(withDefaults -> {});  // HTTP Basic 인증 활성화 (람다식 사용)
