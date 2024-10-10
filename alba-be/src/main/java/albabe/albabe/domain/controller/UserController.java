@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:3000")  // 리액트 개발 서버 주소
+//@CrossOrigin(origins = "http://localhost:3000")  // 리액트 개발 서버 주소
 public class UserController {
 
     @Autowired
