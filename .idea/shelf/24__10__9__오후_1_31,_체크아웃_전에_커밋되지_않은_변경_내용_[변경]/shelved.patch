@@ -1,0 +1,25 @@
+Index: alba-be/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'java'\r\n    id 'org.springframework.boot' version '3.3.4'\r\n    id 'io.spring.dependency-management' version '1.1.6'\r\n}\r\n\r\ngroup = 'alba-be'\r\nversion = '0.0.1-SNAPSHOT'\r\n\r\njava {\r\n    toolchain {\r\n        languageVersion = JavaLanguageVersion.of(17)\r\n    }\r\n}\r\n\r\nrepositories {\r\n    mavenCentral()\r\n}\r\n\r\ndependencies {\r\n    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'\r\n    implementation 'org.springframework.boot:spring-boot-starter-security'\r\n    implementation 'org.springframework.boot:spring-boot-starter-web'\r\n    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'\r\n    compileOnly 'org.projectlombok:lombok:1.18.20'\r\n    annotationProcessor 'org.projectlombok:lombok:1.18.20'\r\n    runtimeOnly 'com.h2database:h2'\r\n    testImplementation 'org.springframework.boot:spring-boot-starter-test'\r\n    testImplementation 'org.springframework.security:spring-security-test'\r\n    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'\r\n}\r\n\r\ntasks.named('test') {\r\n    useJUnitPlatform()\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/alba-be/build.gradle b/alba-be/build.gradle
+--- a/alba-be/build.gradle	(revision e354b714ace97e102931bf026c97cf3f1ab731d1)
++++ b/alba-be/build.gradle	(date 1728448191608)
+@@ -19,14 +19,12 @@
+ 
+ dependencies {
+     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+-    implementation 'org.springframework.boot:spring-boot-starter-security'
+     implementation 'org.springframework.boot:spring-boot-starter-web'
+     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+     compileOnly 'org.projectlombok:lombok:1.18.20'
+     annotationProcessor 'org.projectlombok:lombok:1.18.20'
+     runtimeOnly 'com.h2database:h2'
+     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+-    testImplementation 'org.springframework.security:spring-security-test'
+     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+ }
+ 

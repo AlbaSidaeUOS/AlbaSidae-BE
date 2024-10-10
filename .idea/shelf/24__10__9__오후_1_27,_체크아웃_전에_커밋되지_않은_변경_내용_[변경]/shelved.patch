@@ -1,0 +1,28 @@
+Index: alba-be/src/test/java/albabe/albabe/AlbaBeApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package albabe.albabe;\r\n\r\nimport albabe.albabe.domain.repository.UserRepository;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\n\r\n@SpringBootTest\r\nclass AlbaBeApplicationTests {\r\n\r\n    @Test\r\n    void contextLoads() {\r\n    }\r\n    @Autowired\r\n    private UserRepository userRepository;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/alba-be/src/test/java/albabe/albabe/AlbaBeApplicationTests.java b/alba-be/src/test/java/albabe/albabe/AlbaBeApplicationTests.java
+--- a/alba-be/src/test/java/albabe/albabe/AlbaBeApplicationTests.java	(revision ba343308a3cb78ce980f30a8632264f9c0d209d3)
++++ b/alba-be/src/test/java/albabe/albabe/AlbaBeApplicationTests.java	(date 1728447826184)
+@@ -1,17 +1,8 @@
+ package albabe.albabe;
+ 
+-import albabe.albabe.domain.repository.UserRepository;
+-import org.junit.jupiter.api.Test;
+-import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.boot.test.context.SpringBootTest;
+ 
+ @SpringBootTest
+ class AlbaBeApplicationTests {
+ 
+-    @Test
+-    void contextLoads() {
+-    }
+-    @Autowired
+-    private UserRepository userRepository;
+-
+ }
