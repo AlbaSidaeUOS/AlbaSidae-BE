@@ -40,9 +40,8 @@ package albabe.albabe.domain.service;
 import albabe.albabe.domain.entity.UserEntity;
 import albabe.albabe.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Base64;
 
 @Service
 public class UserService {
@@ -59,8 +58,6 @@ public class UserService {
         user.setEmail(email);
         user.setPhone(phone);
         user.setBusinessNumber(businessNumber);
-        userRepository.save(user);
-
         return userRepository.save(user);
     }
 
@@ -72,16 +69,26 @@ public class UserService {
         return null; // 로그인 실패
     }
 
-    // 비밀번호 인코딩 메서드
+//    // 비밀번호 인코딩 메서드
+//    private String encodePassword(String password) {
+//        // Base64 인코딩을 사용하여 비밀번호를 인코딩
+//        return Base64.getEncoder().encodeToString(password.getBytes());
+//    }
+//
+//    // 비밀번호 매칭 메서드
+//    private boolean matchesPassword(String rawPassword, String encodedPassword) {
+//        // Base64 디코딩 후 비교
+//        String decodedPassword = new String(Base64.getDecoder().decode(encodedPassword));
+//        return rawPassword.equals(decodedPassword);
+//    }
+
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     private String encodePassword(String password) {
-        // Base64 인코딩을 사용하여 비밀번호를 인코딩
-        return Base64.getEncoder().encodeToString(password.getBytes());
+        return passwordEncoder.encode(password);
     }
 
-    // 비밀번호 매칭 메서드
     private boolean matchesPassword(String rawPassword, String encodedPassword) {
-        // Base64 디코딩 후 비교
-        String decodedPassword = new String(Base64.getDecoder().decode(encodedPassword));
-        return rawPassword.equals(decodedPassword);
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }
