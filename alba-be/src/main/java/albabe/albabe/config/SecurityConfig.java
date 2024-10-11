@@ -1,4 +1,4 @@
-package albabe.albabe.domain.config;
+package albabe.albabe.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +23,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()  // 모든 요청에 대해 인증 없이 접근 가능
                 )
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))  // 최신 방식의 프레임 옵션 설정
-                .httpBasic(withDefaults -> {});  // HTTP Basic 인증 활성화 (람다식 사용)
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))  // 프레임 옵션 설정
+                .httpBasic(withDefaults -> {});  // HTTP Basic 인증 활성화
 
         return http.build();
     }
