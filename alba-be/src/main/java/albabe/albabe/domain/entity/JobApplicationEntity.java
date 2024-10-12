@@ -19,8 +19,8 @@ public class JobApplicationEntity {
     private JobPostEntity jobPost;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "personal_id")
+    @JoinColumn(name = "applicant_id")
     private UserEntity applicant;
 
-    private String resume; // 이력서 정보
+    private String resume;
 }
