@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JobPostService {
@@ -63,17 +64,26 @@ public class JobPostService {
         );
     }
 
-    public List<JobPostEntity> getAllJobPosts() {
-        return jobPostRepository.findAll();
+    // 공고 조회 (전체)
+    public List<JobPostResponse> getAllJobPosts() {
+        List<JobPostEntity> jobPosts = jobPostRepository.findAll();
+        return jobPosts.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    public JobPostEntity getJobPostById(Long id) {
-        return jobPostRepository.findById(id)
+    // 공고 조회 (단일)
+    public JobPostResponse getJobPostById(Long id) {
+        JobPostEntity jobPost = jobPostRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("구인 공고를 찾을 수 없습니다."));
+        return convertToDto(jobPost);
     }
 
-    public JobPostEntity updateJobPost(Long id, JobPostEntity updatedJobPost, String email) {
-        JobPostEntity existingJobPost = getJobPostById(id);
+    // 공고 수정
+    public JobPostResponse updateJobPost(Long id, JobPostEntity updatedJobPost, String email) {
+        JobPostEntity existingJobPost = jobPostRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("구인 공고를 찾을 수 없습니다."));
+
         if (!existingJobPost.getCompany().getEmail().equals(email)) {
             throw new IllegalArgumentException("해당 구인 공고를 수정할 권한이 없습니다.");
         }
@@ -95,15 +105,51 @@ public class JobPostService {
         existingJobPost.setDeadline(updatedJobPost.getDeadline());
         existingJobPost.setSubmitMethod(updatedJobPost.getSubmitMethod());
 
-        return jobPostRepository.save(existingJobPost);
+        JobPostEntity savedPost = jobPostRepository.save(existingJobPost);
+
+        return convertToDto(savedPost);
     }
 
+    // 공고 삭제
     public void deleteJobPost(Long id, String email) {
-        JobPostEntity jobPost = getJobPostById(id);
+        JobPostEntity jobPost = jobPostRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("구인 공고를 찾을 수 없습니다."));
+
         if (!jobPost.getCompany().getEmail().equals(email)) {
             throw new IllegalArgumentException("해당 구인 공고를 삭제할 권한이 없습니다.");
         }
 
         jobPostRepository.delete(jobPost);
+    }
+
+    // 엔티티를 DTO로 변환하는 메서드
+    private JobPostResponse convertToDto(JobPostEntity jobPost) {
+        CompanyDto companyDto = new CompanyDto(
+                jobPost.getCompany().getId(),
+                jobPost.getCompany().getEmail(),
+                jobPost.getCompany().getName(),
+                jobPost.getCompany().getRole()
+        );
+
+        return new JobPostResponse(
+                jobPost.getId(),
+                jobPost.getTitle(),
+                jobPost.getCompanyName(),
+                jobPost.getCompanyContent(),
+                jobPost.getCompanyImage(),
+                jobPost.getWorkCategory(),
+                jobPost.getWorkType(),
+                jobPost.getPeopleNum(),
+                jobPost.getCareer(),
+                jobPost.getWorkTerm(),
+                jobPost.getWorkDays(),
+                jobPost.getWorkTime(),
+                jobPost.getPay(),
+                jobPost.getGender(),
+                jobPost.getAge(),
+                jobPost.getDeadline(),
+                jobPost.getSubmitMethod(),
+                companyDto
+        );
     }
 }

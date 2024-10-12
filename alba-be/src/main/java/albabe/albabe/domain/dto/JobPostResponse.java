@@ -27,5 +27,5 @@ public class JobPostResponse {
     private String age;
     private String deadline;
     private String submitMethod;
-    private CompanyDto company;  // 회사 정보는 CompanyDto로 처리
+    private CompanyDto company;
 }
