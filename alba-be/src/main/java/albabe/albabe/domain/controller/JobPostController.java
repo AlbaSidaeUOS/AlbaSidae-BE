@@ -16,10 +16,10 @@ public class JobPostController {
     @Autowired
     private JobPostService jobPostService;
 
-    // 구인 공고 작성 (COMPANY만 가능)
+    // 구인 공고 등록
     @PostMapping
-    public ResponseEntity<ApiResponse<JobPostEntity>> createJobPost(@RequestBody JobPostEntity jobPost, @RequestParam String email) {
-        JobPostEntity createdPost = jobPostService.createJobPost(jobPost, email);
+    public ResponseEntity<ApiResponse<JobPostEntity>> createJobPost(@RequestBody JobPostEntity jobPost) {
+        JobPostEntity createdPost = jobPostService.createJobPost(jobPost);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 등록되었습니다.", createdPost));
     }
 
