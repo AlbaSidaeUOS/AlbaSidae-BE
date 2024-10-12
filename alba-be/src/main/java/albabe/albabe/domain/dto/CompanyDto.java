@@ -8,14 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
-
+public class CompanyDto {
     private Long id;
     private String email;
-    private String password;
     private String name;
-    private String birthDate;
-    private String phone;
-    private String businessNumber;
     private UserRole role;
 }

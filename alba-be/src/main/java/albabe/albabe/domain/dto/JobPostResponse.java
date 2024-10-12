@@ -1,19 +1,16 @@
-package albabe.albabe.domain.entity;
+package albabe.albabe.domain.dto;
 
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "job_posts")
-public class JobPostEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+@AllArgsConstructor
+public class JobPostResponse {
     private Long id;
-
     private String title;
     private String companyName;
     private String companyContent;
@@ -30,8 +27,5 @@ public class JobPostEntity {
     private String age;
     private String deadline;
     private String submitMethod;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    private UserEntity company;
+    private CompanyDto company;
 }

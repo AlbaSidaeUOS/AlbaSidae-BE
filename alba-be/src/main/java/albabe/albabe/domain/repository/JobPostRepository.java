@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
-    List<JobPostEntity> findByUser(UserEntity user);
+    List<JobPostEntity> findByCompany(UserEntity company);
 }
