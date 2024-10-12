@@ -1,16 +1,14 @@
 package albabe.albabe.domain.controller;
 
 import albabe.albabe.domain.dto.UserDto;
-import albabe.albabe.domain.dto.LoginRequest;
-import albabe.albabe.domain.dto.LoginResponse;
 import albabe.albabe.domain.service.UserService;
 import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/users")
@@ -19,20 +17,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // 회원가입
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserDto>> registerUser(@RequestBody UserDto userDto) {
         UserDto registeredUser = userService.registerUser(userDto, userDto.getPassword());
         return ResponseEntity.ok(new ApiResponse<>(true, "회원가입이 완료되었습니다.", registeredUser));
     }
 
-    @PostMapping("/signIn")
-    public ResponseEntity<ApiResponse<LoginResponse>> loginUser(@RequestBody LoginRequest loginRequest) {
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<Object>> loginUser(@RequestBody UserDto userDto) {
         try {
-            LoginResponse response = userService.authenticateUser(loginRequest);
-            return ResponseEntity.ok(new ApiResponse<>(true, "로그인 성공", response));
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse<>(false, "아이디 또는 비밀번호가 잘못되었습니다.", null));
+            // 로그인 성공 시 토큰과 사용자 정보 반환
+            var loginResponse = userService.authenticateUser(userDto.getEmail(), userDto.getPassword(), userDto.getRole());
+            return ResponseEntity.ok(new ApiResponse<>(true, "로그인 성공", loginResponse));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
         }
     }
 }
