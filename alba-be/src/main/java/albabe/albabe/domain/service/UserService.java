@@ -105,4 +105,39 @@ public class UserService {
 
         return loginResponse;
     }
+
+    // 회원 정보 조회
+    public UserDto getUserById(Long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        return new UserDto(user.getId(), user.getEmail(), null, user.getName(), user.getBirthDate(),
+                user.getPhone(), user.getBusinessNumber(), user.getRole());
+    }
+
+    // 회원 정보 수정
+    public UserDto updateUser(Long userId, UserDto userDto) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 정보 업데이트 (이메일, 비밀번호 등은 별도로 로직 처리 가능)
+        user.setName(userDto.getName());
+        user.setPhone(userDto.getPhone());
+        user.setBusinessNumber(userDto.getBusinessNumber());
+        // 비밀번호 수정 시 암호화 필요
+        if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+
+        userRepository.save(user);
+
+        return new UserDto(user.getId(), user.getEmail(), null, user.getName(), user.getBirthDate(),
+                user.getPhone(), user.getBusinessNumber(), user.getRole());
+    }
+
+    // 회원 탈퇴
+    public void deleteUser(Long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        userRepository.delete(user);
+    }
 }

@@ -5,10 +5,7 @@ import albabe.albabe.domain.service.UserService;
 import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -34,5 +31,26 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
         }
+    }
+
+    // 회원 정보 조회
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserDto>> getUserInfo(@PathVariable Long userId) {
+        UserDto userDto = userService.getUserById(userId);
+        return ResponseEntity.ok(new ApiResponse<>(true, "회원 정보 조회 성공", userDto));
+    }
+
+    // 회원 정보 수정
+    @PutMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserDto>> updateUserInfo(@PathVariable Long userId, @RequestBody UserDto userDto) {
+        UserDto updatedUser = userService.updateUser(userId, userDto);
+        return ResponseEntity.ok(new ApiResponse<>(true, "회원 정보 수정 성공", updatedUser));
+    }
+
+    // 회원 탈퇴
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok(new ApiResponse<>(true, "회원 탈퇴 성공", null));
     }
 }
