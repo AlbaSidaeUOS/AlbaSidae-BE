@@ -1,5 +1,6 @@
 package albabe.albabe.domain.service;
 
+import albabe.albabe.domain.dto.JobApplicationDto;
 import albabe.albabe.domain.entity.JobApplicationEntity;
 import albabe.albabe.domain.entity.JobPostEntity;
 import albabe.albabe.domain.entity.UserEntity;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JobApplicationService {
@@ -42,10 +44,21 @@ public class JobApplicationService {
         jobApplicationRepository.save(application);
     }
 
-    // 신청 목록 보기
-    public List<JobApplicationEntity> getApplicationsForJobPost(Long jobPostId) {
-        JobPostEntity jobPost = jobPostRepository.findById(jobPostId)
-                .orElseThrow(() -> new IllegalArgumentException("구인 공고를 찾을 수 없습니다."));
-        return jobApplicationRepository.findByJobPost(jobPost);
+    public List<JobApplicationDto> getApplicationsForJobPost(Long jobPostId) {
+        // 구인 공고에 해당하는 신청 목록 가져오기
+        List<JobApplicationEntity> applications = jobApplicationRepository.findByJobPostId(jobPostId);
+        if (applications.isEmpty()) {
+            throw new IllegalArgumentException("해당 구인 공고에 대한 신청이 없습니다.");
+        }
+
+        return applications.stream()
+                .map(application -> new JobApplicationDto(
+                        application.getId(),
+                        application.getResume(),
+                        application.getApplicant().getName(),  // 신청자의 이름
+                        application.getApplicant().getEmail(), // 신청자의 이메일
+                        application.getJobPost().getTitle()    // 구인 공고의 제목
+                )).collect(Collectors.toList());
     }
 }
+

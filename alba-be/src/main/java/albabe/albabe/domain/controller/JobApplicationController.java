@@ -1,6 +1,6 @@
 package albabe.albabe.domain.controller;
 
-import albabe.albabe.domain.entity.JobApplicationEntity;
+import albabe.albabe.domain.dto.JobApplicationDto;
 import albabe.albabe.domain.service.JobApplicationService;
 import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ public class JobApplicationController {
 
     // 신청 목록 보기
     @GetMapping("/applications/{jobPostId}")
-    public ResponseEntity<ApiResponse<List<JobApplicationEntity>>> getApplicationsForJobPost(
+    public ResponseEntity<ApiResponse<List<JobApplicationDto>>> getApplicationsForJobPost(
             @PathVariable Long jobPostId) {
-        List<JobApplicationEntity> applications = jobApplicationService.getApplicationsForJobPost(jobPostId);
+        List<JobApplicationDto> applications = jobApplicationService.getApplicationsForJobPost(jobPostId);
         return ResponseEntity.ok(new ApiResponse<>(true, "신청 목록 조회 성공", applications));
     }
 }
