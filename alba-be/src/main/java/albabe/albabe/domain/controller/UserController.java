@@ -33,24 +33,24 @@ public class UserController {
         }
     }
 
-    // 회원 정보 조회
-    @GetMapping("/{userId}")
-    public ResponseEntity<ApiResponse<UserDto>> getUserInfo(@PathVariable Long userId) {
-        UserDto userDto = userService.getUserById(userId);
-        return ResponseEntity.ok(new ApiResponse<>(true, "회원 정보 조회 성공", userDto));
+    // 사용자 정보 조회 (이메일로)
+    @GetMapping("/{email}")
+    public ResponseEntity<ApiResponse<UserDto>> getUserByEmail(@PathVariable String email) {
+        UserDto user = userService.getUserByEmail(email);
+        return ResponseEntity.ok(new ApiResponse<>(true, "사용자 조회 성공", user));
     }
 
-    // 회원 정보 수정
-    @PutMapping("/{userId}")
-    public ResponseEntity<ApiResponse<UserDto>> updateUserInfo(@PathVariable Long userId, @RequestBody UserDto userDto) {
-        UserDto updatedUser = userService.updateUser(userId, userDto);
-        return ResponseEntity.ok(new ApiResponse<>(true, "회원 정보 수정 성공", updatedUser));
+    // 사용자 정보 업데이트 (이메일로)
+    @PutMapping("/{email}")
+    public ResponseEntity<ApiResponse<UserDto>> updateUserByEmail(@PathVariable String email, @RequestBody UserDto userDto) {
+        UserDto updatedUser = userService.updateUserByEmail(email, userDto);
+        return ResponseEntity.ok(new ApiResponse<>(true, "사용자 정보 업데이트 성공", updatedUser));
     }
 
-    // 회원 탈퇴
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
-        return ResponseEntity.ok(new ApiResponse<>(true, "회원 탈퇴 성공", null));
+    // 사용자 삭제 (이메일로)
+    @DeleteMapping("/{email}")
+    public ResponseEntity<ApiResponse<Void>> deleteUserByEmail(@PathVariable String email) {
+        userService.deleteUserByEmail(email);
+        return ResponseEntity.ok(new ApiResponse<>(true, "사용자 삭제 완료", null));
     }
 }
