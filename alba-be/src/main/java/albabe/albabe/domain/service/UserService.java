@@ -105,4 +105,57 @@ public class UserService {
 
         return loginResponse;
     }
+
+    // 이메일로 사용자 정보 조회
+    public UserDto getUserByEmail(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        return new UserDto(
+                user.getId(),
+                user.getEmail(),
+                null,
+                user.getName(),
+                user.getBirthDate(),
+                user.getPhone(),
+                user.getBusinessNumber(),
+                user.getRole()
+        );
+    }
+
+    // 이메일로 사용자 정보 업데이트
+    public UserDto updateUserByEmail(String email, UserDto userDto) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+            if (userDto.getPassword().length() < 8 || userDto.getPassword().length() > 15) {
+                throw new IllegalArgumentException("비밀번호는 8자에서 15자 사이여야 합니다.");
+            }
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+
+        user.setName(userDto.getName());
+        user.setBirthDate(userDto.getBirthDate());
+        user.setPhone(userDto.getPhone());
+        user.setBusinessNumber(userDto.getBusinessNumber());
+
+        UserEntity updatedUser = userRepository.save(user);
+        return new UserDto(
+                updatedUser.getId(),
+                updatedUser.getEmail(),
+                null,
+                updatedUser.getName(),
+                updatedUser.getBirthDate(),
+                updatedUser.getPhone(),
+                updatedUser.getBusinessNumber(),
+                updatedUser.getRole()
+        );
+    }
+
+    // 사용자 삭제
+    public void deleteUserByEmail(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        userRepository.delete(user);
+    }
 }
