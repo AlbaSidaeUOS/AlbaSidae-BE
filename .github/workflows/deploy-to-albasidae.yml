@@ -1,0 +1,43 @@
+name: Deploy to Albasidae Backend
+
+on:
+  push:
+    branches:
+      - main # main 브랜치에 push될 때 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout albasidae-be repository
+        uses: actions/checkout@v3
+        with:
+          repository: AlbaSidaeUOS/AlbaSidae-BE
+          ref: main
+
+      - name: Copy code to temporary folder
+        run: |
+          mkdir -p ../temp-backend
+          cp -r ./* ../temp-backend/
+
+      - name: Checkout albasidae repository
+        uses: actions/checkout@v3
+        with:
+          repository: AlbaSidaeUOS/AlbaSidae
+          token: ${{ secrets.ALBASIDAE_PAT }}
+          path: albasidae
+
+      - name: Copy files to albasidae/backend
+        run: |
+          rm -rf albasidae/backend/*
+          cp -r ../temp-backend/* albasidae/backend/
+
+      - name: Commit and push changes to albasidae/backend
+        run: |
+          cd albasidae
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add backend/*
+          git diff --quiet && echo "No changes to commit" || git commit -m "Deploy from albasidae-be on push to main"
+          git push origin main
