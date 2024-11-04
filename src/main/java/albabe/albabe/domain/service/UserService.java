@@ -66,6 +66,7 @@ public class UserService {
                 savedUser.getGender(),
                 savedUser.getPhone(),
                 savedUser.getBusinessNumber(),
+                savedUser.getImage(),
                 savedUser.getRole()
         );
     }
@@ -121,6 +122,7 @@ public class UserService {
                 user.getGender(),
                 user.getPhone(),
                 user.getBusinessNumber(),
+                user.getImage(),
                 user.getRole()
         );
     }
@@ -152,6 +154,7 @@ public class UserService {
                 updatedUser.getGender(),
                 updatedUser.getPhone(),
                 updatedUser.getBusinessNumber(),
+                updatedUser.getImage(),
                 updatedUser.getRole()
         );
     }

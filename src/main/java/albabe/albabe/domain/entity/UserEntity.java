@@ -33,6 +33,8 @@ public class UserEntity {
 
     private String businessNumber;
 
+    private String image;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
