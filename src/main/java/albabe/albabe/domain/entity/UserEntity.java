@@ -27,6 +27,8 @@ public class UserEntity {
 
     private String birthDate;
 
+    private String gender;
+
     private String phone;
 
     private String businessNumber;
