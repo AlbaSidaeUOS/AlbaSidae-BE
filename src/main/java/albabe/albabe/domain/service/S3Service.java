@@ -39,7 +39,6 @@ public class S3Service {
 
         // 정적 URL 생성 (presigned URL 대신 사용)
         String url = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + fileName;
-        System.out.println("Generated S3 URL: " + url);
         return url;
     }
 }

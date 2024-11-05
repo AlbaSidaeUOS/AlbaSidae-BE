@@ -207,7 +207,6 @@ public class UserService {
         try {
             // S3에 이미지 업로드 후 URL 반환
             String imageUrl = s3Service.uploadFile(file);
-            System.out.println("URL to be saved in database: " + imageUrl);
 
             // 사용자 엔티티 가져오기 및 이미지 URL 저장
             UserEntity user = userRepository.findByEmail(email)
