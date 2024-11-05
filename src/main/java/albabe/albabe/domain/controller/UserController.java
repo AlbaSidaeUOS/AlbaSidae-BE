@@ -1,6 +1,7 @@
 package albabe.albabe.domain.controller;
 
 import albabe.albabe.domain.dto.UserDto;
+import albabe.albabe.domain.enums.UserRole;
 import albabe.albabe.domain.service.UserService;
 import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,31 @@ public class UserController {
     public ResponseEntity<ApiResponse<Void>> deleteUserByEmail(@PathVariable String email) {
         userService.deleteUserByEmail(email);
         return ResponseEntity.ok(new ApiResponse<>(true, "사용자 삭제 완료", null));
+    }
+
+    // 아이디(이메일) 찾기
+    @GetMapping("/find-id")
+    public ResponseEntity<ApiResponse<String>> findEmail(
+            @RequestParam String name,
+            @RequestParam String phone,
+            @RequestParam UserRole role,
+            @RequestParam(required = false) String businessNumber) {
+
+        String email = userService.findEmail(name, phone, role, businessNumber);
+        return ResponseEntity.ok(new ApiResponse<>(true, "이메일 찾기 성공", email));
+    }
+
+    // 비밀번호 찾기 (재설정 링크 전송 혹은 즉시 재설정 처리)
+    @PostMapping("/find-password")
+    public ResponseEntity<ApiResponse<String>> resetPassword(
+            @RequestParam String email,
+            @RequestParam String name,
+            @RequestParam String phone,
+            @RequestParam UserRole role,
+            @RequestParam(required = false) String businessNumber,
+            @RequestParam String newPassword) {
+
+        userService.resetPassword(email, name, phone, role, businessNumber, newPassword);
+        return ResponseEntity.ok(new ApiResponse<>(true, "비밀번호 재설정 성공", null));
     }
 }
