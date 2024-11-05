@@ -5,8 +5,10 @@ import albabe.albabe.domain.enums.UserRole;
 import albabe.albabe.domain.service.UserService;
 import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/users")
@@ -79,5 +81,15 @@ public class UserController {
 
         userService.resetPassword(email, name, phone, role, businessNumber, newPassword);
         return ResponseEntity.ok(new ApiResponse<>(true, "비밀번호 재설정 성공", null));
+    }
+
+    // 이미지 업로드 메서드
+    @PutMapping(value = "/{email}/image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<String>> uploadUserImage(
+            @PathVariable String email,
+            @RequestParam("image") MultipartFile image) {
+        String imageUrl = userService.uploadUserImage(email, image);
+        return ResponseEntity.ok(new ApiResponse<>(true, "이미지 업로드 성공", imageUrl));
     }
 }

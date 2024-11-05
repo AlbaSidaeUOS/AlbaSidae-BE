@@ -8,7 +8,9 @@ import albabe.albabe.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +27,9 @@ public class UserService {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private S3Service s3Service;
 
     // 이메일 형식 검증을 위한 정규 표현식
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
@@ -196,5 +201,24 @@ public class UserService {
         UserEntity userEntity = user.orElseThrow(() -> new IllegalArgumentException("일치하는 사용자 정보를 찾을 수 없습니다."));
         userEntity.setPassword(passwordEncoder.encode(newPassword)); // 비밀번호는 암호화 필요
         userRepository.save(userEntity);
+    }
+
+    public String uploadUserImage(String email, MultipartFile file) {
+        try {
+            // S3에 이미지 업로드 후 URL 반환
+            String imageUrl = s3Service.uploadFile(file);
+            System.out.println("URL to be saved in database: " + imageUrl);
+
+            // 사용자 엔티티 가져오기 및 이미지 URL 저장
+            UserEntity user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 이메일의 사용자를 찾을 수 없습니다."));
+
+            user.setImage(imageUrl);  // URL을 저장
+            userRepository.save(user);
+
+            return imageUrl;
+        } catch (IOException e) {
+            throw new IllegalArgumentException("파일 업로드 중 오류가 발생했습니다.", e);
+        }
     }
 }
