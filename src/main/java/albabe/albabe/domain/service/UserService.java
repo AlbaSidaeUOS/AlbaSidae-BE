@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -165,5 +166,35 @@ public class UserService {
         UserEntity user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         userRepository.delete(user);
+    }
+
+
+    // 아이디(이메일) 찾기 메서드
+    public String findEmail(String name, String phone, UserRole role, String businessNumber) {
+        Optional<UserEntity> user;
+        if (role == UserRole.PERSONAL) {
+            user = userRepository.findByNameAndPhoneAndRole(name, phone, role);
+        } else {
+            user = userRepository.findByNameAndPhoneAndRoleAndBusinessNumber(name, phone, role, businessNumber);
+        }
+        return user.orElseThrow(() -> new IllegalArgumentException("일치하는 사용자 정보를 찾을 수 없습니다.")).getEmail();
+    }
+
+    // 비밀번호 재설정 메서드
+    public void resetPassword(String email, String name, String phone, UserRole role, String businessNumber, String newPassword) {
+        // 유효성 검사
+        if (newPassword.length() < 8 || newPassword.length() > 15) {
+            throw new IllegalArgumentException("비밀번호는 8자에서 15자 사이여야 합니다.");
+        }
+        Optional<UserEntity> user;
+        if (role == UserRole.PERSONAL) {
+            user = userRepository.findByEmailAndNameAndPhoneAndRole(email, name, phone, role);
+        } else {
+            user = userRepository.findByEmailAndNameAndPhoneAndRoleAndBusinessNumber(email, name, phone, role, businessNumber);
+        }
+
+        UserEntity userEntity = user.orElseThrow(() -> new IllegalArgumentException("일치하는 사용자 정보를 찾을 수 없습니다."));
+        userEntity.setPassword(passwordEncoder.encode(newPassword)); // 비밀번호는 암호화 필요
+        userRepository.save(userEntity);
     }
 }
