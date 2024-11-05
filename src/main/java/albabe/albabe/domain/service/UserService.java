@@ -141,6 +141,7 @@ public class UserService {
 
         user.setName(userDto.getName());
         user.setBirthDate(userDto.getBirthDate());
+        user.setGender(userDto.getGender());
         user.setPhone(userDto.getPhone());
         user.setBusinessNumber(userDto.getBusinessNumber());
 
