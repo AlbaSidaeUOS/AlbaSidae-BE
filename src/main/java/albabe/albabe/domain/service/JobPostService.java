@@ -8,7 +8,9 @@ import albabe.albabe.domain.repository.JobPostRepository;
 import albabe.albabe.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,9 @@ public class JobPostService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private S3Service s3Service;
 
     // 공고 생성 메서드
     public JobPostResponse createJobPost(JobPostEntity jobPost, String email) {
@@ -153,5 +158,24 @@ public class JobPostService {
                 jobPost.getSubmitMethod(),
                 companyDto
         );
+    }
+
+    public String uploadCompanyImage(Long jobId, MultipartFile file) {
+        try {
+            // S3에 이미지 업로드 후 URL 반환
+            String imageUrl = s3Service.uploadFile(file);
+
+            // jobId에 해당하는 JobPostEntity 가져오기
+            JobPostEntity jobPost = jobPostRepository.findById(jobId)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 ID의 구인 공고를 찾을 수 없습니다."));
+
+            // companyImage 필드에 URL 저장
+            jobPost.setCompanyImage(imageUrl);
+            jobPostRepository.save(jobPost);
+
+            return imageUrl;
+        } catch (IOException e) {
+            throw new IllegalArgumentException("파일 업로드 중 오류가 발생했습니다.", e);
+        }
     }
 }

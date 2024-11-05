@@ -5,8 +5,10 @@ import albabe.albabe.domain.entity.JobPostEntity;
 import albabe.albabe.domain.service.JobPostService;
 import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -51,5 +53,14 @@ public class JobPostController {
     public ResponseEntity<ApiResponse<String>> deleteJobPost(@PathVariable Long id, @RequestParam String email) {
         jobPostService.deleteJobPost(id, email);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 삭제되었습니다.", null));
+    }
+
+    @PutMapping(value = "/{jobId}/company-image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<String>> uploadCompanyImage(
+            @PathVariable Long jobId,
+            @RequestParam("company-image") MultipartFile image) {
+        String imageUrl = jobPostService.uploadCompanyImage(jobId, image);
+        return ResponseEntity.ok(new ApiResponse<>(true, "회사 이미지 업로드 성공", imageUrl));
     }
 }
