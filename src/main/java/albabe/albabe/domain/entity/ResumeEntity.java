@@ -1,12 +1,9 @@
 package albabe.albabe.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,22 +14,39 @@ public class ResumeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String applicantName;
-    private String contactInfo;
-    private String email;
-    private String address;
     private String resumeTitle;
     private String selfIntroduction;
 
-    public ResumeEntity(String applicantName, String contactInfo, String email, String address, String resumeTitle, String selfIntroduction) {
-        this.applicantName = applicantName;
-        this.contactInfo = contactInfo;
-        this.email = email;
-        this.address = address;
+    // New Fields for Education and Preferences
+    private String educationLevel; // 최종학력
+    private String preferredWorkLocation; // 희망근무지
+
+    @ElementCollection
+    private List<String> preferredJobTypes; // 희망업직종
+
+    @ElementCollection
+    private List<String> employmentTypes; // 근무형태
+
+    private String workPeriod; // 근무기간
+    private String workDays; // 근무요일
+
+    public ResumeEntity(Long id, String resumeTitle,
+                        String selfIntroduction, String educationLevel, String preferredWorkLocation,
+                        List<String> preferredJobTypes, List<String> employmentTypes, String workPeriod, String workDays) {
+        this.id = id;
         this.resumeTitle = resumeTitle;
         this.selfIntroduction = selfIntroduction;
+        this.educationLevel = educationLevel;
+        this.preferredWorkLocation = preferredWorkLocation;
+        this.preferredJobTypes = preferredJobTypes;
+        this.employmentTypes = employmentTypes;
+        this.workPeriod = workPeriod;
+        this.workDays = workDays;
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     public ResumeEntity() {
 

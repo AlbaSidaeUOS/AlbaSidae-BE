@@ -5,24 +5,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResumeDto {
-
-    private String applicantName;
-
-    @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$", message = "연락처 형식이 올바르지 않습니다. xxx-xxxx-xxxx 형식이어야 합니다.")
-    private String contactInfo;
-
-    @Email(message = "이메일 형식이 올바르지 않습니다.")
-    private String email;
-
-    private String address;
+    private Long id;
     private String resumeTitle;
     private String selfIntroduction;
+
+    // New Fields for Education and Preferences
+    private String educationLevel; // 최종학력 (e.g., 고등학교, 대학교 등)
+    private String preferredWorkLocation; // 희망근무지 (e.g., 서울)
+    private List<String> preferredJobTypes; // 희망업직종 (e.g., 의식, 음료, 유통)
+    private List<String> employmentTypes; // 근무형태 (e.g., 아르바이트, 계약직)
+    private String workPeriod; // 근무기간 (e.g., 3개월 이하, 3개월~6개월)
+    private String workDays; // 근무요일 (e.g., 평일, 주말, 요일무관)
+    private UserDto user;
 }
