@@ -84,8 +84,7 @@ public class UserController {
     }
 
     // 이미지 업로드 메서드
-    @PutMapping(value = "/{email}/image",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{email}/image")
     public ResponseEntity<ApiResponse<String>> uploadUserImage(
             @PathVariable String email,
             @RequestParam("image") MultipartFile image) {
