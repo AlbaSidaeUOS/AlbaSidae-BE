@@ -199,7 +199,7 @@ public class UserService {
         }
 
         UserEntity userEntity = user.orElseThrow(() -> new IllegalArgumentException("일치하는 사용자 정보를 찾을 수 없습니다."));
-        userEntity.setPassword(passwordEncoder.encode(newPassword)); // 비밀번호는 암호화 필요
+        userEntity.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(userEntity);
     }
 

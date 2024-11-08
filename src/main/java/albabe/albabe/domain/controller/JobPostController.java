@@ -5,7 +5,6 @@ import albabe.albabe.domain.entity.JobPostEntity;
 import albabe.albabe.domain.service.JobPostService;
 import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,8 +20,11 @@ public class JobPostController {
 
     // 구인 공고 생성
     @PostMapping
-    public ResponseEntity<ApiResponse<JobPostResponse>> createJobPost(@RequestBody JobPostEntity jobPost, @RequestParam String email) {
-        JobPostResponse createdPost = jobPostService.createJobPost(jobPost, email);
+    public ResponseEntity<ApiResponse<JobPostResponse>> createJobPost(
+            @RequestPart JobPostEntity jobPost,
+            @RequestPart(value = "companyImage", required = false) MultipartFile companyImage,
+            @RequestParam String email) {
+        JobPostResponse createdPost = jobPostService.createJobPost(jobPost, companyImage, email);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 등록되었습니다.", createdPost));
     }
 
@@ -43,8 +45,11 @@ public class JobPostController {
     // 구인 공고 수정
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<JobPostResponse>> updateJobPost(
-            @PathVariable Long id, @RequestBody JobPostEntity updatedJobPost, @RequestParam String email) {
-        JobPostResponse updatedPost = jobPostService.updateJobPost(id, updatedJobPost, email);
+            @PathVariable Long id,
+            @RequestPart JobPostEntity updatedJobPost,
+            @RequestPart(value = "updatedCompanyImage", required = false) MultipartFile updatedCompanyImage,
+            @RequestParam String email) {
+        JobPostResponse updatedPost = jobPostService.updateJobPost(id, updatedJobPost, updatedCompanyImage, email);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 수정되었습니다.", updatedPost));
     }
 
@@ -53,14 +58,5 @@ public class JobPostController {
     public ResponseEntity<ApiResponse<String>> deleteJobPost(@PathVariable Long id, @RequestParam String email) {
         jobPostService.deleteJobPost(id, email);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 삭제되었습니다.", null));
-    }
-
-    @PutMapping(value = "/{jobId}/company-image",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<String>> uploadCompanyImage(
-            @PathVariable Long jobId,
-            @RequestParam("company-image") MultipartFile image) {
-        String imageUrl = jobPostService.uploadCompanyImage(jobId, image);
-        return ResponseEntity.ok(new ApiResponse<>(true, "회사 이미지 업로드 성공", imageUrl));
     }
 }
