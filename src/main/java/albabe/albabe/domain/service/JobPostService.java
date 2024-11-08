@@ -27,13 +27,23 @@ public class JobPostService {
     private S3Service s3Service;
 
     // 공고 생성 메서드
-    public JobPostResponse createJobPost(JobPostEntity jobPost, String email) {
+    public JobPostResponse createJobPost(JobPostEntity jobPost, MultipartFile companyImage, String email) {
         // 회사 계정 찾기
         UserEntity company = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("회사 계정을 찾을 수 없습니다."));
 
         // 회사 정보 설정
         jobPost.setCompany(company);
+
+        // 이미지 업로드 및 URL 설정
+        if (companyImage != null && !companyImage.isEmpty()) {
+            try {
+                String imageUrl = s3Service.uploadFile(companyImage);
+                jobPost.setCompanyImage(imageUrl); // URL을 엔티티에 저장
+            } catch (IOException e) {
+                throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.", e);
+            }
+        }
 
         // JobPostEntity 저장
         JobPostEntity savedJobPost = jobPostRepository.save(jobPost);
@@ -86,18 +96,20 @@ public class JobPostService {
     }
 
     // 공고 수정
-    public JobPostResponse updateJobPost(Long id, JobPostEntity updatedJobPost, String email) {
+    public JobPostResponse updateJobPost(Long id, JobPostEntity updatedJobPost, MultipartFile updatedCompanyImage, String email) {
+        // 기존 공고 찾기
         JobPostEntity existingJobPost = jobPostRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("구인 공고를 찾을 수 없습니다."));
 
+        // 사용자 권한 확인
         if (!existingJobPost.getCompany().getEmail().equals(email)) {
             throw new IllegalArgumentException("해당 구인 공고를 수정할 권한이 없습니다.");
         }
 
+        // 업데이트할 필드 설정
         existingJobPost.setTitle(updatedJobPost.getTitle());
         existingJobPost.setCompanyName(updatedJobPost.getCompanyName());
         existingJobPost.setCompanyContent(updatedJobPost.getCompanyContent());
-        existingJobPost.setCompanyImage(updatedJobPost.getCompanyImage());
         existingJobPost.setWorkCategory(updatedJobPost.getWorkCategory());
         existingJobPost.setWorkType(updatedJobPost.getWorkType());
         existingJobPost.setPeopleNum(updatedJobPost.getPeopleNum());
@@ -111,8 +123,20 @@ public class JobPostService {
         existingJobPost.setDeadline(updatedJobPost.getDeadline());
         existingJobPost.setSubmitMethod(updatedJobPost.getSubmitMethod());
 
+        // 이미지 업데이트 (새로운 이미지가 제공된 경우)
+        if (updatedCompanyImage != null && !updatedCompanyImage.isEmpty()) {
+            try {
+                String newImageUrl = s3Service.uploadFile(updatedCompanyImage);
+                existingJobPost.setCompanyImage(newImageUrl);
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 업로드 중 오류가 발생했습니다.", e);
+            }
+        }
+
+        // 공고 저장
         JobPostEntity savedPost = jobPostRepository.save(existingJobPost);
 
+        // DTO로 변환하여 반환
         return convertToDto(savedPost);
     }
 
@@ -158,24 +182,5 @@ public class JobPostService {
                 jobPost.getSubmitMethod(),
                 companyDto
         );
-    }
-
-    public String uploadCompanyImage(Long jobId, MultipartFile file) {
-        try {
-            // S3에 이미지 업로드 후 URL 반환
-            String imageUrl = s3Service.uploadFile(file);
-
-            // jobId에 해당하는 JobPostEntity 가져오기
-            JobPostEntity jobPost = jobPostRepository.findById(jobId)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 ID의 구인 공고를 찾을 수 없습니다."));
-
-            // companyImage 필드에 URL 저장
-            jobPost.setCompanyImage(imageUrl);
-            jobPostRepository.save(jobPost);
-
-            return imageUrl;
-        } catch (IOException e) {
-            throw new IllegalArgumentException("파일 업로드 중 오류가 발생했습니다.", e);
-        }
     }
 }

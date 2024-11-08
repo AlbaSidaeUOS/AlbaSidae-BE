@@ -22,6 +22,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Object>> handleGeneralException(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiResponse<>(false, "서버 오류가 발생했습니다.", null));
+                .body(new ApiResponse<>(false, "서버 오류가 발생했습니다. " + ex.getMessage(), null));
     }
 }
