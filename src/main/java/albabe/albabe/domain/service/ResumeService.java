@@ -69,7 +69,7 @@ public class ResumeService {
                 .orElseThrow(() -> new IllegalArgumentException("이력서를 찾을 수 없습니다."));
 
         if (!existingResume.getUser().getEmail().equals(email)) {
-            throw new IllegalArgumentException("해당 구인 공고를 수정할 권한이 없습니다.");
+            throw new IllegalArgumentException("해당 이력서를 수정할 권한이 없습니다.");
         }
 
         existingResume.setResumeTitle(updatedResumeDto.getResumeTitle());
@@ -88,10 +88,10 @@ public class ResumeService {
 
     public void deleteResume(Long id, String email) {
         ResumeEntity resume = resumeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("구인 공고를 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("이력서를 찾을 수 없습니다."));
 
         if (!resume.getUser().getEmail().equals(email)) {
-            throw new IllegalArgumentException("해당 구인 공고를 삭제할 권한이 없습니다.");
+            throw new IllegalArgumentException("해당 이력서를 삭제할 권한이 없습니다.");
         }
 
         resumeRepository.delete(resume);

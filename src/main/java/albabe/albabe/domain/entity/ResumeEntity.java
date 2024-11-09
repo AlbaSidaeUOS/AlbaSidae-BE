@@ -33,20 +33,6 @@ public class ResumeEntity {
     @ElementCollection
     private List<String> workDays; // 근무요일
 
-    public ResumeEntity(Long id, String resumeTitle,
-                        String selfIntroduction, String educationLevel, String preferredWorkLocation,
-                        List<String> preferredJobTypes, List<String> employmentTypes, List<String> workPeriod, List<String> workDays) {
-        this.id = id;
-        this.resumeTitle = resumeTitle;
-        this.selfIntroduction = selfIntroduction;
-        this.educationLevel = educationLevel;
-        this.preferredWorkLocation = preferredWorkLocation;
-        this.preferredJobTypes = preferredJobTypes;
-        this.employmentTypes = employmentTypes;
-        this.workPeriod = workPeriod;
-        this.workDays = workDays;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
