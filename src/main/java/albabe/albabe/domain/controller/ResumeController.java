@@ -19,13 +19,13 @@ public class ResumeController {
     @PostMapping
     public ResponseEntity<ApiResponse<ResumeDto>> createResume(@RequestBody ResumeEntity resumeEntity, @RequestParam String email) {
         ResumeDto createdResume = resumeService.createResume(resumeEntity, email);
-        return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 등록되었습니다.", createdResume));
+        return ResponseEntity.ok(new ApiResponse<>(true, "이력서가 등록되었습니다.", createdResume));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ResumeDto>> getResume(@PathVariable Long id) {
         ResumeDto resume = resumeService.getResumeById(id);
-        return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고 목록 조회 성공", resume));
+        return ResponseEntity.ok(new ApiResponse<>(true, "이력서 조회 성공", resume));
     }
 
     @PutMapping("/{id}")

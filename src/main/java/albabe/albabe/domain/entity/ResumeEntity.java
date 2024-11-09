@@ -27,12 +27,15 @@ public class ResumeEntity {
     @ElementCollection
     private List<String> employmentTypes; // 근무형태
 
-    private String workPeriod; // 근무기간
-    private String workDays; // 근무요일
+    @ElementCollection
+    private List<String> workPeriod; // 근무기간
+
+    @ElementCollection
+    private List<String> workDays; // 근무요일
 
     public ResumeEntity(Long id, String resumeTitle,
                         String selfIntroduction, String educationLevel, String preferredWorkLocation,
-                        List<String> preferredJobTypes, List<String> employmentTypes, String workPeriod, String workDays) {
+                        List<String> preferredJobTypes, List<String> employmentTypes, List<String> workPeriod, List<String> workDays) {
         this.id = id;
         this.resumeTitle = resumeTitle;
         this.selfIntroduction = selfIntroduction;

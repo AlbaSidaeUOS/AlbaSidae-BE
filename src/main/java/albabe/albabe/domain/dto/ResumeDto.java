@@ -21,7 +21,7 @@ public class ResumeDto {
     private String preferredWorkLocation; // 희망근무지 (e.g., 서울)
     private List<String> preferredJobTypes; // 희망업직종 (e.g., 의식, 음료, 유통)
     private List<String> employmentTypes; // 근무형태 (e.g., 아르바이트, 계약직)
-    private String workPeriod; // 근무기간 (e.g., 3개월 이하, 3개월~6개월)
-    private String workDays; // 근무요일 (e.g., 평일, 주말, 요일무관)
+    private List<String> workPeriod; // 근무기간 (e.g., 3개월 이하, 3개월~6개월)
+    private List<String> workDays; // 근무요일 (e.g., 평일, 주말, 요일무관)
     private UserDto user;
 }
