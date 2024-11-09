@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.naming.AuthenticationException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -23,5 +25,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiResponse<>(false, "서버 오류가 발생했습니다. " + ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleAuthenticationException(AuthenticationException ex) {
+        ApiResponse<Void> response = new ApiResponse<>(false, "로그인이 필요합니다.", null);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 }
