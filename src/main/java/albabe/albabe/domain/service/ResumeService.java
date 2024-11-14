@@ -1,13 +1,9 @@
 package albabe.albabe.domain.service;
 
-import albabe.albabe.domain.dto.CompanyDto;
-import albabe.albabe.domain.dto.JobPostResponse;
 import albabe.albabe.domain.dto.ResumeDto;
 import albabe.albabe.domain.dto.UserDto;
-import albabe.albabe.domain.entity.JobPostEntity;
 import albabe.albabe.domain.entity.ResumeEntity;
 import albabe.albabe.domain.entity.UserEntity;
-import albabe.albabe.domain.enums.UserRole;
 import albabe.albabe.domain.repository.ResumeRepository;
 import albabe.albabe.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +21,7 @@ public class ResumeService {
 
     public ResumeDto createResume(ResumeEntity resumeEntity, String email) {
         UserEntity user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("회사 계정을 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("계정을 찾을 수 없습니다."));
 
         resumeEntity.setUser(user);
 
@@ -69,7 +65,7 @@ public class ResumeService {
                 .orElseThrow(() -> new IllegalArgumentException("이력서를 찾을 수 없습니다."));
 
         if (!existingResume.getUser().getEmail().equals(email)) {
-            throw new IllegalArgumentException("해당 구인 공고를 수정할 권한이 없습니다.");
+            throw new IllegalArgumentException("해당 이력서를 수정할 권한이 없습니다.");
         }
 
         existingResume.setResumeTitle(updatedResumeDto.getResumeTitle());
@@ -88,10 +84,10 @@ public class ResumeService {
 
     public void deleteResume(Long id, String email) {
         ResumeEntity resume = resumeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("구인 공고를 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("이력서를 찾을 수 없습니다."));
 
         if (!resume.getUser().getEmail().equals(email)) {
-            throw new IllegalArgumentException("해당 구인 공고를 삭제할 권한이 없습니다.");
+            throw new IllegalArgumentException("해당 이력서를 삭제할 권한이 없습니다.");
         }
 
         resumeRepository.delete(resume);
