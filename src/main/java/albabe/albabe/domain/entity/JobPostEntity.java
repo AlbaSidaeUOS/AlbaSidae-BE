@@ -1,10 +1,14 @@
 package albabe.albabe.domain.entity;
 
+import albabe.albabe.domain.dto.JobPostResponse;
+import albabe.albabe.domain.dto.CompanyDto;
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -46,5 +50,28 @@ public class JobPostEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private UserEntity company;
-}
 
+    public JobPostResponse toResponse(JobPostEntity jobPost) {
+        JobPostResponse response = new JobPostResponse();
+        response.setId(jobPost.getId());
+        response.setTitle(jobPost.getTitle());
+        response.setCompanyName(jobPost.getCompanyName());
+        response.setCompanyContent(jobPost.getCompanyContent());
+        response.setCompanyImage(jobPost.getCompanyImage());
+        response.setPlace(jobPost.getPlace());
+        response.setWorkCategory(jobPost.getWorkCategory());
+        response.setWorkType(jobPost.getWorkType());
+        response.setPeopleNum(jobPost.getPeopleNum());
+        response.setCareer(jobPost.getCareer());
+        response.setWorkTerm(jobPost.getWorkTerm());
+        response.setWorkDays(jobPost.getWorkDays());
+        response.setWorkTime(jobPost.getWorkTime());
+        response.setPay(jobPost.getPay());
+        response.setGender(jobPost.getGender());
+        response.setAge(jobPost.getAge());
+        response.setDeadline(jobPost.getDeadline());
+        response.setSubmitMethod(jobPost.getSubmitMethod());
+
+        return response;
+    }
+}

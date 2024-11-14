@@ -1,6 +1,7 @@
 package albabe.albabe.domain.controller;
 
 import albabe.albabe.domain.dto.JobPostResponse;
+import albabe.albabe.domain.dto.FilterDto;
 import albabe.albabe.domain.entity.JobPostEntity;
 import albabe.albabe.domain.service.JobPostService;
 import albabe.albabe.util.ApiResponse;
@@ -58,5 +59,13 @@ public class JobPostController {
     public ResponseEntity<ApiResponse<String>> deleteJobPost(@PathVariable Long id, @RequestParam String email) {
         jobPostService.deleteJobPost(id, email);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 삭제되었습니다.", null));
+    }
+
+    //필터링
+    @PostMapping("/filter")
+    public ResponseEntity<ApiResponse<List<JobPostResponse>>> getFilteredJobPosts(
+            @RequestBody FilterDto filteringDto) {
+        List<JobPostResponse> filteredPosts = jobPostService.getFilteredJobPosts(filteringDto);
+        return ResponseEntity.ok(new ApiResponse<>(true, "필터링된 구인 공고 조회 성공", filteredPosts));
     }
 }
