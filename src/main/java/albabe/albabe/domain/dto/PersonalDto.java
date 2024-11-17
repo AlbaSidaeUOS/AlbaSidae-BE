@@ -8,10 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyDto {
+public class PersonalDto {
+
     private Long id;
     private String email;
     private String name;
+    private String birthDate;
+    private String gender;
+    private String phone;
     private String image;
     private UserRole role;
 }

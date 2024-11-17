@@ -1,15 +1,13 @@
 package albabe.albabe.domain.service;
 
+import albabe.albabe.domain.dto.PersonalDto;
 import albabe.albabe.domain.dto.ResumeDto;
-import albabe.albabe.domain.dto.UserDto;
 import albabe.albabe.domain.entity.ResumeEntity;
 import albabe.albabe.domain.entity.UserEntity;
 import albabe.albabe.domain.repository.ResumeRepository;
 import albabe.albabe.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.regex.Pattern;
 
 @Service
 public class ResumeService {
@@ -20,24 +18,22 @@ public class ResumeService {
     private UserRepository userRepository;
 
     public ResumeDto createResume(ResumeEntity resumeEntity, String email) {
-        UserEntity user = userRepository.findByEmail(email)
+        UserEntity personal = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("계정을 찾을 수 없습니다."));
 
-        resumeEntity.setUser(user);
+        resumeEntity.setPersonal(personal);
 
         ResumeEntity savedResume = resumeRepository.save(resumeEntity);
 
-        UserDto userDto = new UserDto(
-                user.getId(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getName(),
-                user.getBirthDate(),
-                user.getGender(),
-                user.getPhone(),
-                user.getBusinessNumber(),
-                user.getImage(),
-                user.getRole()
+        PersonalDto personalDto = new PersonalDto(
+                personal.getId(),
+                personal.getEmail(),
+                personal.getName(),
+                personal.getBirthDate(),
+                personal.getGender(),
+                personal.getPhone(),
+                personal.getImage(),
+                personal.getRole()
         );
 
         return new ResumeDto(
@@ -50,7 +46,7 @@ public class ResumeService {
                 savedResume.getEmploymentTypes(),
                 savedResume.getWorkPeriod(),
                 savedResume.getWorkDays(),
-                userDto
+                personalDto
         );
     }
 
@@ -64,7 +60,7 @@ public class ResumeService {
         ResumeEntity existingResume = resumeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("이력서를 찾을 수 없습니다."));
 
-        if (!existingResume.getUser().getEmail().equals(email)) {
+        if (!existingResume.getPersonal().getEmail().equals(email)) {
             throw new IllegalArgumentException("해당 이력서를 수정할 권한이 없습니다.");
         }
 
@@ -86,7 +82,7 @@ public class ResumeService {
         ResumeEntity resume = resumeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("이력서를 찾을 수 없습니다."));
 
-        if (!resume.getUser().getEmail().equals(email)) {
+        if (!resume.getPersonal().getEmail().equals(email)) {
             throw new IllegalArgumentException("해당 이력서를 삭제할 권한이 없습니다.");
         }
 
@@ -94,17 +90,15 @@ public class ResumeService {
     }
 
     private ResumeDto convertToDto(ResumeEntity resume) {
-        UserDto userDto = new UserDto(
-                resume.getUser().getId(),
-                resume.getUser().getEmail(),
-                resume.getUser().getPassword(),
-                resume.getUser().getName(),
-                resume.getUser().getBirthDate(),
-                resume.getUser().getGender(),
-                resume.getUser().getPhone(),
-                resume.getUser().getBusinessNumber(),
-                resume.getUser().getImage(),
-                resume.getUser().getRole()
+        PersonalDto personalDto = new PersonalDto(
+                resume.getPersonal().getId(),
+                resume.getPersonal().getEmail(),
+                resume.getPersonal().getName(),
+                resume.getPersonal().getBirthDate(),
+                resume.getPersonal().getGender(),
+                resume.getPersonal().getPhone(),
+                resume.getPersonal().getImage(),
+                resume.getPersonal().getRole()
         );
 
         return new ResumeDto(
@@ -117,7 +111,7 @@ public class ResumeService {
                 resume.getEmploymentTypes(),
                 resume.getWorkPeriod(),
                 resume.getWorkDays(),
-                userDto
+                personalDto
         );
     }
 }

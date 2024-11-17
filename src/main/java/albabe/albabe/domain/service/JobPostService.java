@@ -53,6 +53,7 @@ public class JobPostService {
                 company.getId(),
                 company.getEmail(),
                 company.getName(),
+                company.getImage(),
                 company.getRole()
         );
 
@@ -158,6 +159,7 @@ public class JobPostService {
                 jobPost.getCompany().getId(),
                 jobPost.getCompany().getEmail(),
                 jobPost.getCompany().getName(),
+                jobPost.getCompany().getImage(),
                 jobPost.getCompany().getRole()
         );
 

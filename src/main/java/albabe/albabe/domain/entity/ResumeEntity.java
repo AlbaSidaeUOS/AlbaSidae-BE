@@ -33,7 +33,7 @@ public class ResumeEntity {
     private String workDays; // 근무요일
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @JoinColumn(name = "personal_id")
+    private UserEntity personal;
 
 }
