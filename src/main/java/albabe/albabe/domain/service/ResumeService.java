@@ -1,13 +1,18 @@
 package albabe.albabe.domain.service;
 
+import albabe.albabe.domain.dto.JobPostResponse;
 import albabe.albabe.domain.dto.PersonalDto;
 import albabe.albabe.domain.dto.ResumeDto;
+import albabe.albabe.domain.entity.JobPostEntity;
 import albabe.albabe.domain.entity.ResumeEntity;
 import albabe.albabe.domain.entity.UserEntity;
 import albabe.albabe.domain.repository.ResumeRepository;
 import albabe.albabe.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ResumeService {
@@ -48,6 +53,14 @@ public class ResumeService {
                 savedResume.getWorkDays(),
                 personalDto
         );
+    }
+
+    // 공고 조회 (전체)
+    public List<ResumeDto> getAllResumes() {
+        List<ResumeEntity> resumes = resumeRepository.findAll();
+        return resumes.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     public ResumeDto getResumeById(Long id) {
