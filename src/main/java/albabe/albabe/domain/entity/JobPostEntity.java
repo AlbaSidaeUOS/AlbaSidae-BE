@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -46,5 +47,21 @@ public class JobPostEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private UserEntity company;
+
+    private int applicantCount = 0; // 지원자 수 초기값
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
+    private Date createdAt; // 등록 시간
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date(); // 등록 시간 자동 설정
+    }
+
+    // 지원자 수 증가 메서드
+    public void incrementApplicantCount() {
+        this.applicantCount++;
+    }
 }
 

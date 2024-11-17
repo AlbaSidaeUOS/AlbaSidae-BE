@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.stream.Collectors;
+import java.util.Collection;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class JobPostService {
@@ -77,7 +78,8 @@ public class JobPostService {
                 savedJobPost.getAge(),
                 savedJobPost.getDeadline(),
                 savedJobPost.getSubmitMethod(),
-                companyDto
+                companyDto,
+                savedJobPost.getCreatedAt()
         );
     }
 
@@ -182,7 +184,24 @@ public class JobPostService {
                 jobPost.getAge(),
                 jobPost.getDeadline(),
                 jobPost.getSubmitMethod(),
-                companyDto
+                companyDto,
+                jobPost.getCreatedAt()
         );
+    }
+
+    // 최신순 상위 12개 조회
+    public List<JobPostResponse> getJobsSortedByLatest() {
+        return jobPostRepository.findTop12ByOrderByCreatedAtDesc()
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    // 지원자 순 상위 12개 조회
+    public List<JobPostResponse> getJobsSortedByPopular() {
+        return jobPostRepository.findTop12ByOrderByApplicantCountDesc()
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 }

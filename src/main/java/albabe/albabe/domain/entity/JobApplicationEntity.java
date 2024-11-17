@@ -23,4 +23,11 @@ public class JobApplicationEntity {
     private UserEntity applicant;
 
     private String resume;
+
+    @PostPersist
+    public void updateJobPostApplicantCount() {
+        if (this.jobPost != null) {
+            this.jobPost.incrementApplicantCount(); // 지원자 수 증가
+        }
+    }
 }

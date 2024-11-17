@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -31,4 +32,5 @@ public class JobPostResponse {
     private String deadline;
     private List<String> submitMethod;
     private CompanyDto company;
+    private Date createdAt;
 }

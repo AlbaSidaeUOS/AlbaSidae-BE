@@ -59,4 +59,19 @@ public class JobPostController {
         jobPostService.deleteJobPost(id, email);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 삭제되었습니다.", null));
     }
+
+    // 정렬된 공고 조회 (상위 12개)
+    @GetMapping("/sorted")
+    public ResponseEntity<ApiResponse<List<JobPostResponse>>> getSortedJobPosts(@RequestParam String sort) {
+        List<JobPostResponse> jobPosts;
+        if ("latest".equals(sort)) {
+            jobPosts = jobPostService.getJobsSortedByLatest();
+        } else if ("popular".equals(sort)) {
+            jobPosts = jobPostService.getJobsSortedByPopular();
+        } else {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse<>(false, "잘못된 정렬 요청입니다.", null));
+        }
+        return ResponseEntity.ok(new ApiResponse<>(true, "정렬된 구인 공고 조회 성공", jobPosts));
+    }
 }
