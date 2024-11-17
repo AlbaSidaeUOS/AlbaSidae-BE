@@ -40,13 +40,11 @@ public class JobPostService {
     public List<JobPostResponse> getFilteredJobPosts(FilterDto filterDto) {
         // 필터링된 구인 공고 조회
         List<JobPostEntity> jobPosts = jobPostRepository.findJobPostsByFilter(
+                filterDto.getWorkLocations(),
                 filterDto.getWorkDays(),
-                filterDto.getWorkCategory(),
-                filterDto.getWorkType(),
-                filterDto.getWorkTime(),
-                filterDto.getPay(),
-                filterDto.getGender(),
-                filterDto.getAge()
+                filterDto.getWorkCategories(),
+                filterDto.getWorkTimes(),
+                filterDto.getWorkTerms()
         );
 
         // 시간표와 겹치는 구인 공고 제외
@@ -79,7 +77,7 @@ public class JobPostService {
         return false; // 겹치는 시간이 없는 경우
     }
 
-    public List<Integer> getHours(TimeTableEntity timeTableEntity, String day) {
+    public List<Integer> getHours(Optional<TimeTableEntity> timeTableEntity, String day) {
         try {
             // TimeTableEntity 클래스의 필드들 중에서 day에 해당하는 필드를 찾음
             Field field = timeTableEntity.getClass().getDeclaredField(day.toLowerCase()); // day 문자열을 소문자로 바꿔서 필드명에 맞게 접근
