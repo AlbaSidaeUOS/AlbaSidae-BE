@@ -7,6 +7,7 @@ import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,8 +20,11 @@ public class JobPostController {
 
     // 구인 공고 생성
     @PostMapping
-    public ResponseEntity<ApiResponse<JobPostResponse>> createJobPost(@RequestBody JobPostEntity jobPost, @RequestParam String email) {
-        JobPostResponse createdPost = jobPostService.createJobPost(jobPost, email);
+    public ResponseEntity<ApiResponse<JobPostResponse>> createJobPost(
+            @RequestPart JobPostEntity jobPost,
+            @RequestPart(value = "companyImage", required = false) MultipartFile companyImage,
+            @RequestParam String email) {
+        JobPostResponse createdPost = jobPostService.createJobPost(jobPost, companyImage, email);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 등록되었습니다.", createdPost));
     }
 
@@ -41,8 +45,11 @@ public class JobPostController {
     // 구인 공고 수정
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<JobPostResponse>> updateJobPost(
-            @PathVariable Long id, @RequestBody JobPostEntity updatedJobPost, @RequestParam String email) {
-        JobPostResponse updatedPost = jobPostService.updateJobPost(id, updatedJobPost, email);
+            @PathVariable Long id,
+            @RequestPart JobPostEntity updatedJobPost,
+            @RequestPart(value = "updatedCompanyImage", required = false) MultipartFile updatedCompanyImage,
+            @RequestParam String email) {
+        JobPostResponse updatedPost = jobPostService.updateJobPost(id, updatedJobPost, updatedCompanyImage, email);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 수정되었습니다.", updatedPost));
     }
 
