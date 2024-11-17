@@ -1,5 +1,6 @@
 package albabe.albabe.domain.controller;
 
+import albabe.albabe.domain.dto.JobPostResponse;
 import albabe.albabe.domain.dto.ResumeDto;
 import albabe.albabe.domain.entity.ResumeEntity;
 import albabe.albabe.domain.service.ResumeService;
@@ -7,6 +8,8 @@ import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/resumes")
@@ -19,6 +22,13 @@ public class ResumeController {
     public ResponseEntity<ApiResponse<ResumeDto>> createResume(@RequestBody ResumeEntity resumeEntity, @RequestParam String email) {
         ResumeDto createdResume = resumeService.createResume(resumeEntity, email);
         return ResponseEntity.ok(new ApiResponse<>(true, "이력서가 등록되었습니다.", createdResume));
+    }
+
+    // 구인 공고 조회 (전체)
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<ResumeDto>>> getAllResumes() {
+        List<ResumeDto> resumes = resumeService.getAllResumes();
+        return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고 목록 조회 성공", resumes));
     }
 
     @GetMapping("/{id}")
