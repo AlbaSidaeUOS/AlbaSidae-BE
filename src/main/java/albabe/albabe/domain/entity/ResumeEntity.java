@@ -19,7 +19,9 @@ public class ResumeEntity {
 
     // New Fields for Education and Preferences
     private String educationLevel; // 최종학력
-    private String preferredWorkLocation; // 희망근무지
+
+    @ElementCollection
+    private List<String> preferredWorkLocation; // 희망근무지
 
     @ElementCollection
     private List<String> preferredJobTypes; // 희망업직종
@@ -27,17 +29,11 @@ public class ResumeEntity {
     @ElementCollection
     private List<String> employmentTypes; // 근무형태
 
-    @ElementCollection
-    private List<String> workPeriod; // 근무기간
-
-    @ElementCollection
-    private List<String> workDays; // 근무요일
+    private String workPeriod; // 근무기간
+    private String workDays; // 근무요일
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public ResumeEntity() {
-
-    }
 }

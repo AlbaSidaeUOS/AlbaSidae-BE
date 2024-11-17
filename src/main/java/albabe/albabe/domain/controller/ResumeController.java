@@ -5,7 +5,6 @@ import albabe.albabe.domain.entity.ResumeEntity;
 import albabe.albabe.domain.service.ResumeService;
 import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,7 @@ public class ResumeController {
     public ResponseEntity<ApiResponse<ResumeDto>> updateResume(
             @PathVariable Long id, @RequestBody ResumeEntity updatedResume, @RequestParam String email) {
         ResumeDto updatedResumeDto = resumeService.updateResume(id, updatedResume, email);
-        return ResponseEntity.ok(new ApiResponse<>(true, "이력서 업데이트 완료", updatedResumeDto));
+        return ResponseEntity.ok(new ApiResponse<>(true, "이력서 수정 완료", updatedResumeDto));
     }
 
     @DeleteMapping("/{id}")
