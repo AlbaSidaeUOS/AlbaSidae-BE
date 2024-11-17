@@ -42,6 +42,9 @@ public class JobApplicationService {
         application.setResume("이력서 내용");
 
         jobApplicationRepository.save(application);
+
+        jobPost.incrementApplicantCount();
+        jobPostRepository.save(jobPost);
     }
 
     public List<JobApplicationDto> getApplicationsForJobPost(Long jobPostId) {
