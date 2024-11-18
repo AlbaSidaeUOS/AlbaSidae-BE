@@ -43,7 +43,7 @@ public class JobPostService {
                 filterDto.getWorkLocations(),
                 filterDto.getWorkDays(),
                 filterDto.getWorkCategories(),
-                filterDto.getWorkTimes(),
+                filterDto.getWorkTimeCategory(),
                 filterDto.getWorkTerms()
         );
 
@@ -129,6 +129,7 @@ public class JobPostService {
                 savedJobPost.getPlace(),
                 savedJobPost.getWorkCategory(),
                 savedJobPost.getWorkType(),
+                savedJobPost.getWorkTimeCategory(),
                 savedJobPost.getPeopleNum(),
                 savedJobPost.getCareer(),
                 savedJobPost.getWorkTerm(),
@@ -233,6 +234,7 @@ public class JobPostService {
                 jobPost.getPlace(),
                 jobPost.getWorkCategory(),
                 jobPost.getWorkType(),
+                jobPost.getWorkTimeCategory(),
                 jobPost.getPeopleNum(),
                 jobPost.getCareer(),
                 jobPost.getWorkTerm(),
@@ -259,6 +261,7 @@ public class JobPostService {
                     response.setPlace(job.getPlace());
                     response.setWorkCategory(job.getWorkCategory());
                     response.setWorkType(job.getWorkType());
+                    response.setWorkTimeCategory(job.getWorkTimeCategory());
                     response.setPeopleNum(job.getPeopleNum());
                     response.setCareer(job.getCareer());
                     response.setWorkTerm(job.getWorkTerm());
