@@ -1,11 +1,16 @@
 package albabe.albabe.domain.entity;
 
+import albabe.albabe.domain.dto.JobPostResponse;
+import albabe.albabe.domain.dto.CompanyDto;
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -34,6 +39,9 @@ public class JobPostEntity {
 
     @ElementCollection
     private List<String> workDays;
+
+    @ElementCollection
+    private List<String> workTimeCategory;
 
     private String workTime;
     private String pay;
@@ -64,4 +72,3 @@ public class JobPostEntity {
         this.applicantCount++;
     }
 }
-

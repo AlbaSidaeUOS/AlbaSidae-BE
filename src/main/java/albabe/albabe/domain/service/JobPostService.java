@@ -1,11 +1,14 @@
 package albabe.albabe.domain.service;
 
 import albabe.albabe.domain.dto.CompanyDto;
+import albabe.albabe.domain.dto.FilterDto;
 import albabe.albabe.domain.dto.JobPostResponse;
 import albabe.albabe.domain.entity.JobPostEntity;
+import albabe.albabe.domain.entity.TimeTableEntity;
 import albabe.albabe.domain.entity.UserEntity;
 import albabe.albabe.domain.repository.JobPostRepository;
 import albabe.albabe.domain.repository.UserRepository;
+import albabe.albabe.domain.repository.TimeTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.stream.Collectors;
 import java.util.Collection;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class JobPostService {
@@ -26,6 +33,75 @@ public class JobPostService {
 
     @Autowired
     private S3Service s3Service;
+
+    @Autowired
+    private TimeTableRepository timetableRepository;
+
+
+
+    public List<JobPostResponse> getFilteredJobPosts(FilterDto filterDto) {
+        // 필터링된 구인 공고 조회
+
+
+
+
+        List<JobPostEntity> jobPosts = jobPostRepository.findJobPostsByFilter(
+                filterDto.getWorkLocations(),
+                filterDto.getWorkLocations().size(),
+                filterDto.getWorkDays(),
+                filterDto.getWorkDays().size(),
+                filterDto.getWorkCategories(),
+                filterDto.getWorkCategories().size(),
+                filterDto.getWorkTimeCategory(),
+                filterDto.getWorkTimeCategory().size(),
+                filterDto.getWorkTerms(),
+                filterDto.getWorkTerms().size()
+        );
+
+        System.out.println(filterDto.getWorkTimeCategory());
+        System.out.println(filterDto.getWorkTimeCategory().size());
+
+        // 시간표와 겹치는 구인 공고 제외
+        if (filterDto.useTimeTable) {
+            Optional<TimeTableEntity> timetable = timetableRepository.findByUserId(filterDto.getId());
+            jobPosts = jobPosts.stream()
+                    .filter(job -> !isOverlappingWithTimetable(job, timetable))
+                    .collect(Collectors.toList());
+        }
+
+        return convertToDtoList(jobPosts);  // List<JobPostEntity> -> List<JobPostResponse> 변환
+    }
+
+    private boolean isOverlappingWithTimetable(JobPostEntity jobPost, Optional<TimeTableEntity> timetable) {
+        List<String> jobDays = jobPost.getWorkDays();
+
+        String[] workTimeRange = jobPost.getWorkTime().split("~");
+        int jobStartTime = Integer.parseInt(workTimeRange[0]) - 9;
+        int jobEndTime = Integer.parseInt(workTimeRange[1]) - 9;
+
+        for (String day : jobDays) {
+            List<Integer> timetableHours = getHours(timetable, day);
+
+            for (int hour = jobStartTime; hour < jobEndTime; hour++) {
+                if (timetableHours != null && timetableHours.contains(hour)) {
+                    return true; // 겹치는 시간이 있는 경우
+                }
+            }
+        }
+        return false; // 겹치는 시간이 없는 경우
+    }
+
+    public List<Integer> getHours(Optional<TimeTableEntity> timeTableEntity, String day) {
+        try {
+            // TimeTableEntity 클래스의 필드들 중에서 day에 해당하는 필드를 찾음
+            Field field = timeTableEntity.getClass().getDeclaredField(day.toLowerCase()); // day 문자열을 소문자로 바꿔서 필드명에 맞게 접근
+            field.setAccessible(true);  // private 필드에도 접근 가능하도록 설정
+            return (List<Integer>) field.get(timeTableEntity);  // 해당 필드의 값을 가져와서 반환
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;  // 필드가 없거나 접근할 수 없으면 null 반환
+        }
+    }
 
     // 공고 생성 메서드
     public JobPostResponse createJobPost(JobPostEntity jobPost, MultipartFile companyImage, String email) {
@@ -68,6 +144,7 @@ public class JobPostService {
                 savedJobPost.getPlace(),
                 savedJobPost.getWorkCategory(),
                 savedJobPost.getWorkType(),
+                savedJobPost.getWorkTimeCategory(),
                 savedJobPost.getPeopleNum(),
                 savedJobPost.getCareer(),
                 savedJobPost.getWorkTerm(),
@@ -174,6 +251,7 @@ public class JobPostService {
                 jobPost.getPlace(),
                 jobPost.getWorkCategory(),
                 jobPost.getWorkType(),
+                jobPost.getWorkTimeCategory(),
                 jobPost.getPeopleNum(),
                 jobPost.getCareer(),
                 jobPost.getWorkTerm(),
@@ -202,6 +280,45 @@ public class JobPostService {
         return jobPostRepository.findTop12ByOrderByApplicantCountDesc()
                 .stream()
                 .map(this::convertToDto)
+    public List<JobPostResponse> convertToDtoList(List<JobPostEntity> jobPosts) {
+        return jobPosts.stream()
+                .map(job -> {
+                    JobPostResponse response = new JobPostResponse();
+                    response.setId(job.getId());
+                    response.setTitle(job.getTitle());
+                    response.setCompanyName(job.getCompanyName());
+                    response.setCompanyContent(job.getCompanyContent());
+                    response.setCompanyImage(job.getCompanyImage());
+                    response.setPlace(job.getPlace());
+                    response.setWorkCategory(job.getWorkCategory());
+                    response.setWorkType(job.getWorkType());
+                    response.setWorkTimeCategory(job.getWorkTimeCategory());
+                    response.setPeopleNum(job.getPeopleNum());
+                    response.setCareer(job.getCareer());
+                    response.setWorkTerm(job.getWorkTerm());
+                    response.setWorkDays(job.getWorkDays());
+                    response.setWorkTime(job.getWorkTime());
+                    response.setPay(job.getPay());
+                    response.setGender(job.getGender());
+                    response.setAge(job.getAge());
+                    response.setDeadline(job.getDeadline());
+                    response.setSubmitMethod(job.getSubmitMethod());
+
+                    // CompanyDto로 변환
+                    if (job.getCompany() != null) {
+                        CompanyDto companyDto = new CompanyDto();
+                        companyDto.setId(job.getCompany().getId());
+                        companyDto.setName(job.getCompany().getName());
+                        companyDto.setEmail(job.getCompany().getEmail());
+                        companyDto.setRole(job.getCompany().getRole());
+                        // 다른 필요한 필드를 추가
+                        response.setCompany(companyDto);
+                    }
+
+                    return response;
+                })
                 .collect(Collectors.toList());
     }
 }
+
+

@@ -21,6 +21,7 @@ public class JobPostResponse {
     private String place;
     private List<String> workCategory;
     private List<String> workType;
+    private List<String> workTimeCategory;
     private int peopleNum;
     private String career;
     private String workTerm;
