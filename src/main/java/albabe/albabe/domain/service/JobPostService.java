@@ -39,13 +39,25 @@ public class JobPostService {
 
     public List<JobPostResponse> getFilteredJobPosts(FilterDto filterDto) {
         // 필터링된 구인 공고 조회
+
+
+
+
         List<JobPostEntity> jobPosts = jobPostRepository.findJobPostsByFilter(
                 filterDto.getWorkLocations(),
+                filterDto.getWorkLocations().size(),
                 filterDto.getWorkDays(),
+                filterDto.getWorkDays().size(),
                 filterDto.getWorkCategories(),
+                filterDto.getWorkCategories().size(),
                 filterDto.getWorkTimeCategory(),
-                filterDto.getWorkTerms()
+                filterDto.getWorkTimeCategory().size(),
+                filterDto.getWorkTerms(),
+                filterDto.getWorkTerms().size()
         );
+
+        System.out.println(filterDto.getWorkTimeCategory());
+        System.out.println(filterDto.getWorkTimeCategory().size());
 
         // 시간표와 겹치는 구인 공고 제외
         if (filterDto.useTimeTable) {
@@ -289,4 +301,5 @@ public class JobPostService {
                 .collect(Collectors.toList());
     }
 }
+
 
