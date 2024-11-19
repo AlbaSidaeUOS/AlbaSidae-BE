@@ -280,6 +280,9 @@ public class JobPostService {
         return jobPostRepository.findTop12ByOrderByApplicantCountDesc()
                 .stream()
                 .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+    
     public List<JobPostResponse> convertToDtoList(List<JobPostEntity> jobPosts) {
         return jobPosts.stream()
                 .map(job -> {
