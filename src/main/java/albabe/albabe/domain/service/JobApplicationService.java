@@ -43,7 +43,6 @@ public class JobApplicationService {
 
         jobApplicationRepository.save(application);
 
-        jobPost.incrementApplicantCount();
         jobPostRepository.save(jobPost);
     }
 
