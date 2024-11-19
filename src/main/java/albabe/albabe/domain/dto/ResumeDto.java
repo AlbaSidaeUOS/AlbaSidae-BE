@@ -18,6 +18,7 @@ public class ResumeDto {
 
     // New Fields for Education and Preferences
     private String educationLevel; // 최종학력 (e.g., 고등학교, 대학교 등)
+    private String career; // 경력
     private List<String> preferredWorkLocation; // 희망근무지 (e.g., 서울)
     private List<String> preferredJobTypes; // 희망업직종 (e.g., 의식, 음료, 유통)
     private List<String> employmentTypes; // 근무형태 (e.g., 아르바이트, 계약직)

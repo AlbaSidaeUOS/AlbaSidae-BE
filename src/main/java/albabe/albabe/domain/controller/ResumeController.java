@@ -24,11 +24,11 @@ public class ResumeController {
         return ResponseEntity.ok(new ApiResponse<>(true, "이력서가 등록되었습니다.", createdResume));
     }
 
-    // 구인 공고 조회 (전체)
+    // 이력서 조회 (전체)
     @GetMapping
     public ResponseEntity<ApiResponse<List<ResumeDto>>> getAllResumes() {
         List<ResumeDto> resumes = resumeService.getAllResumes();
-        return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고 목록 조회 성공", resumes));
+        return ResponseEntity.ok(new ApiResponse<>(true, "이력서 목록 조회 성공", resumes));
     }
 
     @GetMapping("/{id}")
