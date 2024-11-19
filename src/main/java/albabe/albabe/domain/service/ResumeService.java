@@ -9,6 +9,9 @@ import albabe.albabe.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ResumeService {
 
@@ -51,6 +54,13 @@ public class ResumeService {
                 savedResume.getWorkDays(),
                 userDto
         );
+    }
+
+    public List<ResumeDto> getAllResumes() {
+        List<ResumeEntity> resumeEntities = resumeRepository.findAll();
+        return resumeEntities.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     public ResumeDto getResumeById(Long id) {

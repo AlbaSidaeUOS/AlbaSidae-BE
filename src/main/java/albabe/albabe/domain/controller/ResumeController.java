@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/resumes")
 public class ResumeController {
@@ -21,6 +23,14 @@ public class ResumeController {
         return ResponseEntity.ok(new ApiResponse<>(true, "이력서가 등록되었습니다.", createdResume));
     }
 
+    // 이력서 전체 조회
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<ResumeDto>>> getAllResumes() {
+        List<ResumeDto> resumes = resumeService.getAllResumes();
+        return ResponseEntity.ok(new ApiResponse<>(true, "이력서 목록 조회 성공", resumes));
+    }
+
+    //이력서 부분 조회
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ResumeDto>> getResume(@PathVariable Long id) {
         ResumeDto resume = resumeService.getResumeById(id);
