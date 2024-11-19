@@ -20,6 +20,8 @@ public class ResumeEntity {
     // New Fields for Education and Preferences
     private String educationLevel; // 최종학력
 
+    private String career;
+
     @ElementCollection
     private List<String> preferredWorkLocation; // 희망근무지
 

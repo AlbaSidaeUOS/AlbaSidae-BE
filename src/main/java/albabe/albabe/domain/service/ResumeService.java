@@ -9,8 +9,6 @@ import albabe.albabe.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.regex.Pattern;
-
 @Service
 public class ResumeService {
 
@@ -45,6 +43,7 @@ public class ResumeService {
                 savedResume.getResumeTitle(),
                 savedResume.getSelfIntroduction(),
                 savedResume.getEducationLevel(),
+                savedResume.getCareer(),
                 savedResume.getPreferredWorkLocation(),
                 savedResume.getPreferredJobTypes(),
                 savedResume.getEmploymentTypes(),
@@ -112,6 +111,7 @@ public class ResumeService {
                 resume.getResumeTitle(),
                 resume.getSelfIntroduction(),
                 resume.getEducationLevel(),
+                resume.getCareer(),
                 resume.getPreferredWorkLocation(),
                 resume.getPreferredJobTypes(),
                 resume.getEmploymentTypes(),
