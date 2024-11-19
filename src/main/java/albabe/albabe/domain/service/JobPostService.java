@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.Collection;
 import java.io.IOException;
@@ -41,8 +42,6 @@ public class JobPostService {
 
     public List<JobPostResponse> getFilteredJobPosts(FilterDto filterDto) {
         // 필터링된 구인 공고 조회
-
-
 
 
         List<JobPostEntity> jobPosts = jobPostRepository.findJobPostsByFilter(
@@ -121,6 +120,7 @@ public class JobPostService {
                 throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.", e);
             }
         }
+        jobPost.setWorkTimeCategory(workTimeToWorkTimeCategory(jobPost.getWorkTime()));
 
         // JobPostEntity 저장
         JobPostEntity savedJobPost = jobPostRepository.save(jobPost);
@@ -213,6 +213,7 @@ public class JobPostService {
             }
         }
 
+        existingJobPost.setWorkTimeCategory(workTimeToWorkTimeCategory(existingJobPost.getWorkTime()));
         // 공고 저장
         JobPostEntity savedPost = jobPostRepository.save(existingJobPost);
 
@@ -321,6 +322,50 @@ public class JobPostService {
                     return response;
                 })
                 .collect(Collectors.toList());
+    }
+    //workTime을 workTimeCateogry 문자열로 바꾸는 함수
+    public List<String> workTimeToWorkTimeCategory(String workTime)
+    {
+        List<String> workTimeCategory = new ArrayList<String>();
+        boolean[] isWorkTime = new boolean[24];
+        String[] workTimeRange = workTime.split("~");
+        Integer[] times = new Integer[2];
+        times[0] = Integer.parseInt(workTimeRange[0]);
+        times[1] = Integer.parseInt(workTimeRange[1]);
+        while(true)
+        {
+            isWorkTime[times[0]] = true;
+            times[0]++;
+            if(times[0].equals(times[1]))
+                break;
+            if(times[0] > 24)
+                times[0] = 0;
+
+        }
+        for(int i=0; i<24; i++)
+        {
+            if(i < 6 && isWorkTime[i])
+            {
+                workTimeCategory.add("새벽");
+                i = 6;
+            }
+            if(i < 12 && isWorkTime[i])
+            {
+                workTimeCategory.add("오전");
+                i = 12;
+            }
+            if(i < 18 && isWorkTime[i])
+            {
+                workTimeCategory.add("오후");
+                i = 18;
+            }
+            if(i < 24 && isWorkTime[i])
+            {
+                workTimeCategory.add("저녁");
+                i = 24;
+            }
+        }
+        return workTimeCategory;
     }
 }
 
