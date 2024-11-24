@@ -14,6 +14,7 @@ public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
     List<JobPostEntity> findByCompany(UserEntity company);
     List<JobPostEntity> findTop12ByOrderByCreatedAtDesc();
     List<JobPostEntity> findTop12ByOrderByApplicantCountDesc();
+    List<JobPostEntity> findAllByCompany(UserEntity company);
 
     @Query(value = "SELECT DISTINCT post.* " +
             "FROM job_posts as post " +

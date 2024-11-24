@@ -12,4 +12,5 @@ public interface JobApplicationRepository extends JpaRepository<JobApplicationEn
     boolean existsByJobPostAndApplicant(JobPostEntity jobPost, UserEntity applicant);
 
     List<JobApplicationEntity> findByJobPostId(Long jobPostId);
+    List<JobApplicationEntity> findAllByJobPost(JobPostEntity jobPost);
 }
