@@ -1,27 +1,44 @@
 package albabe.albabe.domain.service;
 
 import albabe.albabe.domain.dto.UserDto;
+import albabe.albabe.domain.entity.JobApplicationEntity;
+import albabe.albabe.domain.entity.JobPostEntity;
+import albabe.albabe.domain.entity.ResumeEntity;
 import albabe.albabe.domain.entity.UserEntity;
 import albabe.albabe.domain.enums.UserRole;
+import albabe.albabe.domain.repository.JobApplicationRepository;
+import albabe.albabe.domain.repository.JobPostRepository;
+import albabe.albabe.domain.repository.ResumeRepository;
 import albabe.albabe.domain.repository.UserRepository;
 import albabe.albabe.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.List;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final ResumeRepository resumeRepository;
+    private final JobPostRepository jobPostRepository;
+    private final JobApplicationRepository jobApplicationRepository;
 
+    public UserService(UserRepository userRepository, ResumeRepository resumeRepository,
+                       JobPostRepository jobPostRepository, JobApplicationRepository jobApplicationRepository) {
+        this.userRepository = userRepository;
+        this.resumeRepository = resumeRepository;
+        this.jobPostRepository = jobPostRepository;
+        this.jobApplicationRepository = jobApplicationRepository;
+    }
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -167,9 +184,31 @@ public class UserService {
     }
 
     // 사용자 삭제
+    @Transactional
     public void deleteUserByEmail(String email) {
         UserEntity user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 1. 이력서 삭제
+        List<ResumeEntity> resumes = resumeRepository.findAllByPersonal(user);
+        if (!resumes.isEmpty()) {
+            resumeRepository.deleteAll(resumes);
+        }
+
+        // 2. 구인공고와 관련된 지원자 및 구인공고 삭제
+        List<JobPostEntity> jobPosts = jobPostRepository.findAllByCompany(user);
+        if (!jobPosts.isEmpty()) {
+            for (JobPostEntity jobPost : jobPosts) {
+                // 구인공고에 지원한 지원자 삭제
+                List<JobApplicationEntity> jobApplications = jobApplicationRepository.findAllByJobPost(jobPost);
+                if (!jobApplications.isEmpty()) {
+                    jobApplicationRepository.deleteAll(jobApplications);
+                }
+            }
+            jobPostRepository.deleteAll(jobPosts);
+        }
+
+        // 3. 사용자 삭제
         userRepository.delete(user);
     }
 
