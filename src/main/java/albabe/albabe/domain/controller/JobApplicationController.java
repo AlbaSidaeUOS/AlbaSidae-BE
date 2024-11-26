@@ -1,6 +1,7 @@
 package albabe.albabe.domain.controller;
 
 import albabe.albabe.domain.dto.JobApplicationDto;
+import albabe.albabe.domain.dto.JobPostResponse;
 import albabe.albabe.domain.service.JobApplicationService;
 import albabe.albabe.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,12 @@ public class JobApplicationController {
             @PathVariable Long jobPostId) {
         List<JobApplicationDto> applications = jobApplicationService.getApplicationsForJobPost(jobPostId);
         return ResponseEntity.ok(new ApiResponse<>(true, "신청 목록 조회 성공", applications));
+    }
+
+    @GetMapping("/applied-jobs")
+    public ResponseEntity<ApiResponse<List<JobPostResponse>>> getAppliedJobs(
+            @RequestParam("email") String email) {
+        List<JobPostResponse> appliedJobs = jobApplicationService.getAppliedJobPosts(email);
+        return ResponseEntity.ok(new ApiResponse<>(true, "지원한 공고 목록 조회 성공", appliedJobs));
     }
 }
