@@ -26,6 +26,7 @@ public class JobPostEntity {
     private String companyContent;
     private String companyImage; // 이미지 URL을 저장하는 String 타입
     private String place;
+    private String placeDetail;
 
     @ElementCollection
     private List<String> workCategory;

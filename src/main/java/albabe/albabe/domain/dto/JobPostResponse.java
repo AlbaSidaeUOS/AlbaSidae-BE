@@ -20,6 +20,7 @@ public class JobPostResponse {
     private String companyContent;
     private String companyImage; // URL 형태의 이미지 저장
     private String place;
+    private String placeDetail;
     private List<String> workCategory;
     private List<String> workType;
     private List<String> workTimeCategory;
