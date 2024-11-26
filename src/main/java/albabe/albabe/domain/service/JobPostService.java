@@ -15,13 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.Collection;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class JobPostService {
@@ -142,6 +139,7 @@ public class JobPostService {
                 savedJobPost.getCompanyContent(),
                 savedJobPost.getCompanyImage(),
                 savedJobPost.getPlace(),
+                savedJobPost.getPlaceDetail(),
                 savedJobPost.getWorkCategory(),
                 savedJobPost.getWorkType(),
                 savedJobPost.getWorkTimeCategory(),
@@ -262,6 +260,7 @@ public class JobPostService {
                 jobPost.getCompanyContent(),
                 jobPost.getCompanyImage(),
                 jobPost.getPlace(),
+                jobPost.getPlaceDetail(),
                 jobPost.getWorkCategory(),
                 jobPost.getWorkType(),
                 jobPost.getWorkTimeCategory(),
@@ -306,6 +305,7 @@ public class JobPostService {
                     response.setCompanyContent(job.getCompanyContent());
                     response.setCompanyImage(job.getCompanyImage());
                     response.setPlace(job.getPlace());
+                    response.setPlaceDetail(job.getPlaceDetail());
                     response.setWorkCategory(job.getWorkCategory());
                     response.setWorkType(job.getWorkType());
                     response.setWorkTimeCategory(job.getWorkTimeCategory());
