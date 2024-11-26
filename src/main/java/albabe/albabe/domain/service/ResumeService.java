@@ -64,6 +64,17 @@ public class ResumeService {
                 .collect(Collectors.toList());
     }
 
+    // 공고 조회 (전체)
+    public List<ResumeDto> getResumes(String email) {
+        List<ResumeEntity> resumes = resumeRepository.findResumesByEmail(email);
+        // 이메일이 제공되었지만 해당 이메일로 공고가 조회되지 않는 경우
+        if (email != null && !email.isEmpty() && resumes.isEmpty()) {
+            throw new IllegalArgumentException("입력한 이메일로 조회된 이력서가 없습니다.");
+        }
+        return resumes.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
     public ResumeDto getResumeById(Long id) {
         ResumeEntity resumeEntity = resumeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("이력서를 찾을 수 없습니다."));

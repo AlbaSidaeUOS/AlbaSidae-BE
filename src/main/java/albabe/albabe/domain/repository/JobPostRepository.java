@@ -11,7 +11,9 @@ import java.util.List;
 
 @Repository
 public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
-    List<JobPostEntity> findByCompany(UserEntity company);
+    // 이메일이 제공되지 않을 경우 전체 조회
+    @Query("SELECT jp FROM JobPostEntity jp WHERE :email IS NULL OR jp.company.email = :email")
+    List<JobPostEntity> findJobPostsByEmail(@Param("email") String email);
     List<JobPostEntity> findTop12ByOrderByCreatedAtDesc();
     List<JobPostEntity> findTop12ByOrderByApplicantCountDesc();
     List<JobPostEntity> findAllByCompany(UserEntity company);
