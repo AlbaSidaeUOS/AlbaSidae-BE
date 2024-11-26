@@ -25,9 +25,17 @@ public class ResumeController {
     }
 
     // 이력서 조회 (전체)
+//    @GetMapping
+//    public ResponseEntity<ApiResponse<List<ResumeDto>>> getAllResumes() {
+//        List<ResumeDto> resumes = resumeService.getAllResumes();
+//        return ResponseEntity.ok(new ApiResponse<>(true, "이력서 목록 조회 성공", resumes));
+//    }
+
+    // 이메일을 기준으로 이력서를 조회
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ResumeDto>>> getAllResumes() {
-        List<ResumeDto> resumes = resumeService.getAllResumes();
+    public ResponseEntity<ApiResponse<List<ResumeDto>>> getResumes(
+            @RequestParam(value = "email", required = false) String email) {
+        List<ResumeDto> resumes = resumeService.getResumes(email);
         return ResponseEntity.ok(new ApiResponse<>(true, "이력서 목록 조회 성공", resumes));
     }
 

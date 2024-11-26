@@ -29,10 +29,18 @@ public class JobPostController {
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고가 등록되었습니다.", createdPost));
     }
 
-    // 구인 공고 조회 (전체)
+//    // 구인 공고 조회 (전체)
+//    @GetMapping
+//    public ResponseEntity<ApiResponse<List<JobPostResponse>>> getAllJobPosts() {
+//        List<JobPostResponse> jobPosts = jobPostService.getAllJobPosts();
+//        return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고 목록 조회 성공", jobPosts));
+//    }
+
+    // 이메일을 기준으로 공고를 조회
     @GetMapping
-    public ResponseEntity<ApiResponse<List<JobPostResponse>>> getAllJobPosts() {
-        List<JobPostResponse> jobPosts = jobPostService.getAllJobPosts();
+    public ResponseEntity<ApiResponse<List<JobPostResponse>>> getJobPosts(
+            @RequestParam(value = "email", required = false) String email) {
+        List<JobPostResponse> jobPosts = jobPostService.getJobPosts(email);
         return ResponseEntity.ok(new ApiResponse<>(true, "구인 공고 목록 조회 성공", jobPosts));
     }
 
