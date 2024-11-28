@@ -379,6 +379,13 @@ public class JobPostService {
         }
         return workTimeCategory;
     }
+
+    public List<JobPostResponse> searchJobPosts(String keyword) {
+        List<JobPostEntity> searchResults = jobPostRepository.searchByTitleOrContent(keyword);
+        return searchResults.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 }
 
 
