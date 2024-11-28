@@ -72,4 +72,38 @@ public class JobPostEntity {
     public void incrementApplicantCount() {
         this.applicantCount++;
     }
+
+    // 엔티티가 로드되거나 workTime이 설정될 때 workTimeCategory를 채우는 유틸리티 메서드
+    public void updateWorkTimeCategory() {
+        if (workTime == null || workTime.isBlank()) return;
+
+        workTimeCategory.clear(); // 기존 값을 비우고
+        if(workTime.equals("any")) {
+            workTimeCategory.add("시간협의");
+            return;
+        }
+
+        String[] timeRange = workTime.split("~");
+        int start = Integer.parseInt(timeRange[0]); // 시작 시간
+        int end = Integer.parseInt(timeRange[1]);   // 종료 시간
+
+        // 시작 시간부터 종료 시간까지 각 시간대 분류 추가
+        for (int hour = start; hour != end; hour = (hour + 1) % 24) {
+            if (hour >= 6 && hour < 12 && !workTimeCategory.contains("오전")) {
+                workTimeCategory.add("오전");
+            } else if (hour >= 12 && hour < 18 && !workTimeCategory.contains("오후")) {
+                workTimeCategory.add("오후");
+            } else if (hour >= 18 && hour < 22 && !workTimeCategory.contains("저녁")) {
+                workTimeCategory.add("저녁");
+            } else if ((hour >= 22 || hour < 6) && !workTimeCategory.contains("새벽")) {
+                workTimeCategory.add("새벽");
+            }
+        }
+    }
+
+    // setter를 통해 workTime이 설정되면 workTimeCategory를 업데이트
+    public void setWorkTime(String workTime) {
+        this.workTime = workTime;
+        updateWorkTimeCategory();
+    }
 }

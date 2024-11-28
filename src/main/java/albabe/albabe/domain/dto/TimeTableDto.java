@@ -14,9 +14,11 @@ import java.util.List;
 public class TimeTableDto {
     private Long id;
     private boolean isRegistered;
-    private List<Integer> monday;
-    private List<Integer> tuesday;
-    private List<Integer> wednesday;
-    private List<Integer> thursday;
-    private List<Integer> friday;
+    private String monday;
+    private String tuesday;
+    private String wednesday;
+    private String thursday;
+    private String friday;
+    private String saturday;
+    private String sunday;
 }

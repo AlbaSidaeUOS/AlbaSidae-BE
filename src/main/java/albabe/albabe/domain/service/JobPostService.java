@@ -13,12 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class JobPostService {
@@ -60,45 +58,104 @@ public class JobPostService {
         // 시간표와 겹치는 구인 공고 제외
         if (filterDto.useTimeTable) {
             Optional<TimeTableEntity> timetable = timetableRepository.findByUserId(filterDto.getId());
+
             jobPosts = jobPosts.stream()
                     .filter(job -> !isOverlappingWithTimetable(job, timetable))
                     .collect(Collectors.toList());
         }
-
         return convertToDtoList(jobPosts);  // List<JobPostEntity> -> List<JobPostResponse> 변환
     }
 
     private boolean isOverlappingWithTimetable(JobPostEntity jobPost, Optional<TimeTableEntity> timetable) {
-        List<String> jobDays = jobPost.getWorkDays();
+        // 시간표에서 모든 요일의 비트를 계산
+        Map<String, Integer> userTimetableBits = calculateTimetableBits(timetable.get());
 
-        String[] workTimeRange = jobPost.getWorkTime().split("~");
-        int jobStartTime = Integer.parseInt(workTimeRange[0]) - 9;
-        int jobEndTime = Integer.parseInt(workTimeRange[1]) - 9;
-
-        for (String day : jobDays) {
-            List<Integer> timetableHours = getHours(timetable, day);
-
-            for (int hour = jobStartTime; hour < jobEndTime; hour++) {
-                if (timetableHours != null && timetableHours.contains(hour)) {
-                    return true; // 겹치는 시간이 있는 경우
+        // 공고의 workDays와 workTime을 기반으로 비트 계산
+        int jobTimeBits = calculateJobTimeBits(jobPost);
+        // 겹침 여부 판단
+        for (String day : jobPost.getWorkDays()) {
+            // 해당 요일의 시간표 비트를 가져와 AND 연산
+            if (userTimetableBits.containsKey(day))
+                if((userTimetableBits.get(day) & jobTimeBits) != 0) {
+                    return true;
                 }
+        }
+        return false;
+    }
+
+    // 사용자 시간표에서 각 요일별로 비트를 계산하는 함수
+    private Map<String, Integer> calculateTimetableBits(TimeTableEntity timetable) {
+        Map<String, Integer> timetableBits = new HashMap<>();
+
+        for (String day : Arrays.asList("월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일")) {
+            String timeSlots = getTimeSlotsForDay(timetable, day);
+            if (timeSlots != null && !timeSlots.isEmpty()) {
+                timetableBits.put(day, convertTimeSlotsToBits(timeSlots));
             }
         }
-        return false; // 겹치는 시간이 없는 경우
+
+        return timetableBits;
     }
 
-    public List<Integer> getHours(Optional<TimeTableEntity> timeTableEntity, String day) {
-        try {
-            // TimeTableEntity 클래스의 필드들 중에서 day에 해당하는 필드를 찾음
-            Field field = timeTableEntity.getClass().getDeclaredField(day.toLowerCase()); // day 문자열을 소문자로 바꿔서 필드명에 맞게 접근
-            field.setAccessible(true);  // private 필드에도 접근 가능하도록 설정
-            return (List<Integer>) field.get(timeTableEntity);  // 해당 필드의 값을 가져와서 반환
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-            return null;  // 필드가 없거나 접근할 수 없으면 null 반환
+    // 요일별 시간표 데이터를 가져오는 헬퍼 메서드
+    private String getTimeSlotsForDay(TimeTableEntity timetable, String day) {
+        switch (day) {
+            case "월요일":
+                return timetable.getMonday();
+            case "화요일":
+                return timetable.getTuesday();
+            case "수요일":
+                return timetable.getWednesday();
+            case "목요일":
+                return timetable.getThursday();
+            case "금요일":
+                return timetable.getFriday();
+            case "토요일":
+                return timetable.getSaturday();
+            case "일요일":
+                return timetable.getSunday();
+            default:
+                return null;
         }
     }
 
+    // 시간표 문자열을 비트로 변환
+    private int convertTimeSlotsToBits(String timeSlots) {
+        int bits = 0;
+        for (String time : timeSlots.split(",\\s*")) {
+            int hour = Integer.parseInt(time.trim());
+            bits |= (1 << hour); // 해당 시간의 비트를 1로 설정
+        }
+        return bits;
+    }
+
+    // 구인 공고의 시간 데이터를 비트로 변환
+    private int calculateJobTimeBits(JobPostEntity jobPost) {
+        String[] timeRange = jobPost.getWorkTime().split("~");
+        int startHour = Integer.parseInt(timeRange[0].trim());
+        int endHour = Integer.parseInt(timeRange[1].trim());
+
+        int bits = 0;
+
+
+        if (startHour <= endHour) {
+            // 일반 시간 범위 (예: 9~18)
+            for (int hour = startHour; hour < endHour; hour++) {
+                bits |= (1 << hour); // 해당 시간의 비트를 1로 설정
+            }
+        } else {
+            // 야간 시간 범위 (예: 22~6)
+            // 첫 번째 범위: 22~23
+            for (int hour = startHour; hour < 24; hour++) {
+                bits |= (1 << hour);
+            }
+            // 두 번째 범위: 0~6
+            for (int hour = 0; hour < endHour; hour++) {
+                bits |= (1 << hour);
+            }
+        }
+        return bits;
+    }
     // 공고 생성 메서드
     public JobPostResponse createJobPost(JobPostEntity jobPost, MultipartFile companyImage, String email) {
         // 회사 계정 찾기
@@ -117,7 +174,6 @@ public class JobPostService {
                 throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.", e);
             }
         }
-        jobPost.setWorkTimeCategory(workTimeToWorkTimeCategory(jobPost.getWorkTime()));
 
         // JobPostEntity 저장
         JobPostEntity savedJobPost = jobPostRepository.save(jobPost);
@@ -223,7 +279,6 @@ public class JobPostService {
             }
         }
 
-        existingJobPost.setWorkTimeCategory(workTimeToWorkTimeCategory(existingJobPost.getWorkTime()));
         // 공고 저장
         JobPostEntity savedPost = jobPostRepository.save(existingJobPost);
 
@@ -334,50 +389,6 @@ public class JobPostService {
                     return response;
                 })
                 .collect(Collectors.toList());
-    }
-    //workTime을 workTimeCateogry 문자열로 바꾸는 함수
-    public List<String> workTimeToWorkTimeCategory(String workTime)
-    {
-        List<String> workTimeCategory = new ArrayList<String>();
-        boolean[] isWorkTime = new boolean[24];
-        String[] workTimeRange = workTime.split("~");
-        Integer[] times = new Integer[2];
-        times[0] = Integer.parseInt(workTimeRange[0]);
-        times[1] = Integer.parseInt(workTimeRange[1]);
-        while(true)
-        {
-            isWorkTime[times[0]] = true;
-            times[0]++;
-            if(times[0].equals(times[1]))
-                break;
-            if(times[0] > 24)
-                times[0] = 0;
-
-        }
-        for(int i=0; i<24; i++)
-        {
-            if(i < 6 && isWorkTime[i])
-            {
-                workTimeCategory.add("새벽");
-                i = 6;
-            }
-            if(i < 12 && isWorkTime[i])
-            {
-                workTimeCategory.add("오전");
-                i = 12;
-            }
-            if(i < 18 && isWorkTime[i])
-            {
-                workTimeCategory.add("오후");
-                i = 18;
-            }
-            if(i < 24 && isWorkTime[i])
-            {
-                workTimeCategory.add("저녁");
-                i = 24;
-            }
-        }
-        return workTimeCategory;
     }
 }
 

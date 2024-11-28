@@ -27,20 +27,13 @@ public class TimeTableEntity {
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
     private boolean isRegistered;
 
-    @ElementCollection
-    private List<Integer> monday;
-
-    @ElementCollection
-    private List<Integer> tuesday;
-
-    @ElementCollection
-    private List<Integer> wednesday;
-
-    @ElementCollection
-    private List<Integer> thursday;
-
-    @ElementCollection
-    private List<Integer> friday;
+    private String monday;
+    private String tuesday;
+    private String wednesday;
+    private String thursday;
+    private String friday;
+    private String saturday;
+    private String sunday;
 
     public TimeTableDto convertToDto() {
         TimeTableDto dto = new TimeTableDto();
@@ -52,6 +45,8 @@ public class TimeTableEntity {
         dto.setWednesday(this.wednesday);
         dto.setThursday(this.thursday);
         dto.setFriday(this.friday);
+        dto.setThursday(this.saturday);
+        dto.setFriday(this.sunday);
         return dto;
     }
 }
