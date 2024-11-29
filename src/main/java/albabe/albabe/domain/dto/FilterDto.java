@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class FilterDto {
     private Long id;
+    private String email;
     private List<String> workLocations;        // 근무 위치
     private List<String> workCategories;   // 아르바이트 종류
     private List<String> workTerms;    // 근무 기간(1일, 1주일 이하, 1주일-1개월, 1개월-3개월, 3개월-6개월, 6개월-1년, 1년이상)

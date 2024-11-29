@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TimeTableRepository extends JpaRepository<TimeTableEntity, Long> {
-    Optional<TimeTableEntity> findByUserId(Long userId);
+    Optional<TimeTableEntity> findByEmail(String email);
 }

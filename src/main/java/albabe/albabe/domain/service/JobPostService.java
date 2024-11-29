@@ -57,7 +57,7 @@ public class JobPostService {
 
         // 시간표와 겹치는 구인 공고 제외
         if (filterDto.useTimeTable) {
-            Optional<TimeTableEntity> timetable = timetableRepository.findByUserId(filterDto.getId());
+            Optional<TimeTableEntity> timetable = timetableRepository.findByEmail(filterDto.getEmail());
 
             jobPosts = jobPosts.stream()
                     .filter(job -> !isOverlappingWithTimetable(job, timetable))

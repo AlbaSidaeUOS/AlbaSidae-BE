@@ -17,13 +17,9 @@ public class TimeTableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String email;
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
     private boolean isRegistered;
 

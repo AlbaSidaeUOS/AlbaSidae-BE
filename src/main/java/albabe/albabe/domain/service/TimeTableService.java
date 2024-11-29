@@ -21,12 +21,12 @@ public class TimeTableService {
     }
 
     // 시간표 등록
-    public TimeTableDto registerTimeTable(TimeTableDto timeTableDto, Long userId) {
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+    public TimeTableDto registerTimeTable(TimeTableDto timeTableDto, String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with Email: " + email));
 
         TimeTableEntity timeTable = new TimeTableEntity();
-        timeTable.setUser(user);
+        timeTable.setEmail(timeTableDto.getEmail());
         timeTable.setRegistered(timeTableDto.isRegistered());
         timeTable.setMonday(timeTableDto.getMonday());
         timeTable.setTuesday(timeTableDto.getTuesday());
@@ -39,18 +39,19 @@ public class TimeTableService {
     }
 
     // 시간표 조회
-    public TimeTableDto getTimeTable(Long userId) {
-        TimeTableEntity timeTable = timeTableRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("TimeTable not found for User ID: " + userId));
+    public TimeTableDto getTimeTable(String email) {
+        TimeTableEntity timeTable = timeTableRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("TimeTable not found for User Email: " + email));
 
         return timeTable.convertToDto();
     }
 
     // 시간표 수정
-    public TimeTableDto updateTimeTable(TimeTableDto updatedTimeTableDto, Long userId) {
-        TimeTableEntity existingTimeTable = timeTableRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("TimeTable not found for User ID: " + userId));
+    public TimeTableDto updateTimeTable(TimeTableDto updatedTimeTableDto, String email) {
+        TimeTableEntity existingTimeTable = timeTableRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("TimeTable not found for User Email: " + email));
 
+        existingTimeTable.setEmail(updatedTimeTableDto.getEmail());
         existingTimeTable.setRegistered(updatedTimeTableDto.isRegistered());
         existingTimeTable.setMonday(updatedTimeTableDto.getMonday());
         existingTimeTable.setTuesday(updatedTimeTableDto.getTuesday());
