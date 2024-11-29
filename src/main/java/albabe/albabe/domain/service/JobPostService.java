@@ -390,6 +390,13 @@ public class JobPostService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public List<JobPostResponse> searchJobPosts(String keyword) {
+        List<JobPostEntity> searchResults = jobPostRepository.searchByTitleOrContent(keyword);
+        return searchResults.stream()
+                .map(this::convertToDto) // Entity -> DTO 변환
+                .collect(Collectors.toList());
+    }
 }
 
 
