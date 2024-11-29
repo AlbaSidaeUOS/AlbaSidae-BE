@@ -17,7 +17,7 @@ public class TimeTableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String email;
 
     @OneToOne
     @MapsId
@@ -37,8 +37,7 @@ public class TimeTableEntity {
 
     public TimeTableDto convertToDto() {
         TimeTableDto dto = new TimeTableDto();
-        dto.setId(this.id);
-        dto.setId(this.user.getId());
+        dto.setEmail(this.email);
         dto.setRegistered(this.isRegistered);
         dto.setMonday(this.monday);
         dto.setTuesday(this.tuesday);

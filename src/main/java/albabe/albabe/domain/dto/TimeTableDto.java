@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TimeTableDto {
-    private Long id;
+    private String email;
     private boolean isRegistered;
     private String monday;
     private String tuesday;
