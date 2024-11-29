@@ -40,4 +40,8 @@ public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
             @Param("workTerms") List<String> workTerms,
             @Param("workTermsSize") Integer workTermsSize
     );
+
+    @Query("SELECT jp FROM JobPostEntity jp WHERE " +
+            "(:keyword IS NULL OR jp.title LIKE %:keyword% OR jp.companyContent LIKE %:keyword%)")
+    List<JobPostEntity> searchByTitleOrContent(@Param("keyword") String keyword);
 }

@@ -91,4 +91,23 @@ public class JobPostController {
         List<JobPostResponse> filteredPosts = jobPostService.getFilteredJobPosts(filteringDto);
         return ResponseEntity.ok(new ApiResponse<>(true, "필터링된 구인 공고 조회 성공", filteredPosts));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<JobPostResponse>>> searchJobPosts(
+            @RequestParam(required = false) String keyword) {
+        // 입력값 검증
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "검색어를 입력해야 합니다.", null));
+        }
+
+        // 검색 결과 조회
+        List<JobPostResponse> searchResults = jobPostService.searchJobPosts(keyword);
+
+        // 검색 결과 확인
+        if (searchResults.isEmpty()) {
+            return ResponseEntity.ok(new ApiResponse<>(true, "검색 결과가 없습니다.", searchResults));
+        }
+
+        return ResponseEntity.ok(new ApiResponse<>(true, "검색 결과 조회 성공", searchResults));
+    }
 }
