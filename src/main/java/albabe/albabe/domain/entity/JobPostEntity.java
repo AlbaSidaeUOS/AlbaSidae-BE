@@ -77,7 +77,8 @@ public class JobPostEntity {
     public void updateWorkTimeCategory() {
         if (workTime == null || workTime.isBlank()) return;
 
-        workTimeCategory.clear(); // 기존 값을 비우고
+        if(!workTimeCategory.isEmpty())
+            workTimeCategory.clear(); // 기존 값을 비우고
         if(workTime.equals("any")) {
             workTimeCategory.add("시간협의");
             return;
