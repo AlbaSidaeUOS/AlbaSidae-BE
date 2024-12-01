@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -67,6 +68,16 @@ public class UserService {
         // 비밀번호 길이 확인
         if (rawPassword.length() < 8 || rawPassword.length() > 15) {
             throw new IllegalArgumentException("비밀번호는 8자에서 15자 사이여야 합니다.");
+        }
+
+        // 생년월일 길이 확인 (6자리)
+        if (userDto.getBirthDate() == null || userDto.getBirthDate().length() != 6) {
+            throw new IllegalArgumentException("생년월일은 6자리여야 합니다. (예: YYMMDD)");
+        }
+
+        // 핸드폰 번호 길이 확인 (11자리)
+        if (userDto.getPhone() == null || userDto.getPhone().length() != 11) {
+            throw new IllegalArgumentException("핸드폰 번호는 11자리여야 합니다.");
         }
 
         UserEntity user = new UserEntity();
@@ -130,6 +141,26 @@ public class UserService {
         loginResponse.put("name", user.getName());
 
         return loginResponse;
+    }
+
+    public List<UserDto> getAllUsers() {
+        List<UserEntity> users = userRepository.findAll();
+
+        // UserEntity를 UserDto로 변환
+        return users.stream()
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getEmail(),
+                        null, // 비밀번호는 제외
+                        user.getName(),
+                        user.getBirthDate(),
+                        user.getGender(),
+                        user.getPhone(),
+                        user.getBusinessNumber(),
+                        user.getImage(),
+                        user.getRole()
+                ))
+                .collect(Collectors.toList());
     }
 
     // 이메일로 사용자 정보 조회
