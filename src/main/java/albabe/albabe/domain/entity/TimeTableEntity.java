@@ -40,8 +40,8 @@ public class TimeTableEntity {
         dto.setWednesday(this.wednesday);
         dto.setThursday(this.thursday);
         dto.setFriday(this.friday);
-        dto.setThursday(this.saturday);
-        dto.setFriday(this.sunday);
+        dto.setSaturday(this.saturday);
+        dto.setSunday(this.sunday);
         return dto;
     }
 }
