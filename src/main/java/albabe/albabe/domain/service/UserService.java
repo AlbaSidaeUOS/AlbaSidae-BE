@@ -69,6 +69,16 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호는 8자에서 15자 사이여야 합니다.");
         }
 
+        // 생년월일 길이 확인 (6자리)
+        if (userDto.getBirthDate() == null || userDto.getBirthDate().length() != 6) {
+            throw new IllegalArgumentException("생년월일은 6자리여야 합니다. (예: YYMMDD)");
+        }
+
+        // 핸드폰 번호 길이 확인 (11자리)
+        if (userDto.getPhone() == null || userDto.getPhone().length() != 11) {
+            throw new IllegalArgumentException("핸드폰 번호는 11자리여야 합니다.");
+        }
+
         UserEntity user = new UserEntity();
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(rawPassword));
