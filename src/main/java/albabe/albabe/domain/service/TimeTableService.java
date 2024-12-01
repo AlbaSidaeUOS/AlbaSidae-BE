@@ -33,6 +33,8 @@ public class TimeTableService {
         timeTable.setWednesday(timeTableDto.getWednesday());
         timeTable.setThursday(timeTableDto.getThursday());
         timeTable.setFriday(timeTableDto.getFriday());
+        timeTable.setSaturday(timeTableDto.getSaturday());
+        timeTable.setSunday(timeTableDto.getSunday());
 
         TimeTableEntity savedTimeTable = timeTableRepository.save(timeTable);
         return savedTimeTable.convertToDto();
@@ -58,8 +60,11 @@ public class TimeTableService {
         existingTimeTable.setWednesday(updatedTimeTableDto.getWednesday());
         existingTimeTable.setThursday(updatedTimeTableDto.getThursday());
         existingTimeTable.setFriday(updatedTimeTableDto.getFriday());
+        existingTimeTable.setSaturday(updatedTimeTableDto.getSaturday());
+        existingTimeTable.setSunday(updatedTimeTableDto.getSunday());
 
         TimeTableEntity savedTimeTable = timeTableRepository.save(existingTimeTable);
         return savedTimeTable.convertToDto();
     }
 }
+
