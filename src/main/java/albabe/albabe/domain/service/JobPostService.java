@@ -52,9 +52,6 @@ public class JobPostService {
                 filterDto.getWorkTerms().size()
         );
 
-        System.out.println(filterDto.getWorkTimeCategory());
-        System.out.println(filterDto.getWorkTimeCategory().size());
-
         // 시간표와 겹치는 구인 공고 제외
         if (filterDto.useTimeTable) {
             Optional<TimeTableEntity> timetable = timetableRepository.findByEmail(filterDto.getEmail());
@@ -131,6 +128,8 @@ public class JobPostService {
 
     // 구인 공고의 시간 데이터를 비트로 변환
     private int calculateJobTimeBits(JobPostEntity jobPost) {
+        if(jobPost.getWorkTime().equals("any"))
+            return 0;
         String[] timeRange = jobPost.getWorkTime().split("~");
         int startHour = Integer.parseInt(timeRange[0].trim());
         int endHour = Integer.parseInt(timeRange[1].trim());
