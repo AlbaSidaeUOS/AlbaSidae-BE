@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -140,6 +141,26 @@ public class UserService {
         loginResponse.put("name", user.getName());
 
         return loginResponse;
+    }
+
+    public List<UserDto> getAllUsers() {
+        List<UserEntity> users = userRepository.findAll();
+
+        // UserEntity를 UserDto로 변환
+        return users.stream()
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getEmail(),
+                        null, // 비밀번호는 제외
+                        user.getName(),
+                        user.getBirthDate(),
+                        user.getGender(),
+                        user.getPhone(),
+                        user.getBusinessNumber(),
+                        user.getImage(),
+                        user.getRole()
+                ))
+                .collect(Collectors.toList());
     }
 
     // 이메일로 사용자 정보 조회
