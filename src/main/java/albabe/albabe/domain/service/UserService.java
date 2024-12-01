@@ -71,12 +71,12 @@ public class UserService {
         }
 
         // 생년월일 길이 확인 (6자리)
-        if (userDto.getBirthDate() == null || userDto.getBirthDate().length() != 6) {
+        if (userDto.getRole() == UserRole.PERSONAL && userDto.getBirthDate().length() != 6) {
             throw new IllegalArgumentException("생년월일은 6자리여야 합니다. (예: YYMMDD)");
         }
 
         // 핸드폰 번호 길이 확인 (11자리)
-        if (userDto.getPhone() == null || userDto.getPhone().length() != 11) {
+        if (userDto.getPhone().length() != 11) {
             throw new IllegalArgumentException("핸드폰 번호는 11자리여야 합니다.");
         }
 
