@@ -15,14 +15,18 @@ public class JobApplicationEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_post_id")
-    private JobPostEntity jobPost;
+    @JoinColumn(name = "job_post_id", nullable = false)
+    private JobPostEntity jobPost; // 지원한 공고
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "applicant_id")
-    private UserEntity applicant;
+    @JoinColumn(name = "applicant_id", nullable = false)
+    private UserEntity applicant; // 지원자
 
-    private String resume;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resume_id", nullable = false)
+    private ResumeEntity resume; // 이력서
+
+    private String description; // 자기소개
 
     @PostPersist
     public void updateJobPostApplicantCount() {

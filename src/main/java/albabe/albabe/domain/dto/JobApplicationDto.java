@@ -11,8 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JobApplicationDto {
     private Long id;
-    private String resume;
-    private String applicantName;  // 신청자의 이름
-    private String applicantEmail; // 신청자의 이메일
-    private String jobPostTitle;   // 구인 공고의 제목
+    private Long resume; // 이력서 ID
+    private String description; // 간단한 자기소개
 }
