@@ -80,7 +80,7 @@ public class JobPostEntity {
         if (workTime == null || workTime.isBlank()) return;
 
         workTimeCategory.clear(); // 기존 값을 비우고
-        if(workTime.equals("any")) {
+        if (workTime.equals("any")) {
             workTimeCategory.add("시간협의");
             return;
         }
@@ -89,17 +89,21 @@ public class JobPostEntity {
         int start = Integer.parseInt(timeRange[0]); // 시작 시간
         int end = Integer.parseInt(timeRange[1]);   // 종료 시간
 
-        // 시작 시간부터 종료 시간까지 각 시간대 분류 추가
-        for (int hour = start; hour != end; hour = (hour + 1) % 24) {
-            if (hour >= 6 && hour < 12 && !workTimeCategory.contains("오전")) {
-                workTimeCategory.add("오전");
-            } else if (hour >= 12 && hour < 18 && !workTimeCategory.contains("오후")) {
-                workTimeCategory.add("오후");
-            } else if (hour >= 18 && hour < 22 && !workTimeCategory.contains("저녁")) {
-                workTimeCategory.add("저녁");
-            } else if ((hour >= 22 || hour < 6) && !workTimeCategory.contains("새벽")) {
-                workTimeCategory.add("새벽");
+        int currentHour = start;
+        while (true) {
+            if (currentHour == end) break;
+            if (currentHour == 24)
+                currentHour = 0;
+            if (currentHour >= 6 && currentHour < 12) {
+                if (!workTimeCategory.contains("오전")) workTimeCategory.add("오전");
+            } else if (currentHour >= 12 && currentHour < 18) {
+                if (!workTimeCategory.contains("오후")) workTimeCategory.add("오후");
+            } else if (currentHour >= 18 && currentHour < 24) {
+                if (!workTimeCategory.contains("저녁")) workTimeCategory.add("저녁");
+            } else if (currentHour >= 0 && currentHour < 6) {
+                if (!workTimeCategory.contains("새벽")) workTimeCategory.add("새벽");
             }
+            currentHour++;
         }
     }
 
