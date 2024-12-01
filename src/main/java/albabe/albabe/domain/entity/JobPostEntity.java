@@ -41,14 +41,16 @@ public class JobPostEntity {
     @ElementCollection
     private List<String> workDays;
 
+
     @ElementCollection
-    private List<String> workTimeCategory;
+    private List<String> workTimeCategory = new ArrayList<>();
 
     private String workTime;
     private String pay;
     private String gender;
     private String age;
     private String deadline;
+
 
     @ElementCollection
     private List<String> submitMethod;
@@ -77,8 +79,7 @@ public class JobPostEntity {
     public void updateWorkTimeCategory() {
         if (workTime == null || workTime.isBlank()) return;
 
-        if(!workTimeCategory.isEmpty())
-            workTimeCategory.clear(); // 기존 값을 비우고
+        workTimeCategory.clear(); // 기존 값을 비우고
         if(workTime.equals("any")) {
             workTimeCategory.add("시간협의");
             return;
