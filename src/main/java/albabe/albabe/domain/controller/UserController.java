@@ -78,7 +78,7 @@ public class UserController {
         String email = userService.findEmail(name, phone, role, businessNumber);
         return ResponseEntity.ok(new ApiResponse<>(true, "이메일 찾기 성공", email));
     }
-
+    /*
     // 비밀번호 찾기 (재설정 링크 전송 혹은 즉시 재설정 처리)
     @PostMapping("/find-password")
     public ResponseEntity<ApiResponse<String>> resetPassword(
@@ -92,7 +92,34 @@ public class UserController {
         userService.resetPassword(email, name, phone, role, businessNumber, newPassword);
         return ResponseEntity.ok(new ApiResponse<>(true, "비밀번호 재설정 성공", null));
     }
+    */
 
+    // 사용자 정보 검증 (1단계)
+    @PostMapping("/verify-user")
+    public ResponseEntity<ApiResponse<String>> verifyUser(
+            @RequestParam String email,
+            @RequestParam String name,
+            @RequestParam String phone,
+            @RequestParam UserRole role,
+            @RequestParam(required = false) String businessNumber) {
+
+        boolean isVerified = userService.verifyUser(email, name, phone, role, businessNumber);
+        if (isVerified) {
+            return ResponseEntity.ok(new ApiResponse<>(true, "사용자 정보 검증 성공", null));
+        } else {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "사용자 정보 검증 실패", null));
+        }
+    }
+
+    // 비밀번호 재설정 (2단계)
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse<String>> resetPassword(
+            @RequestParam String email,
+            @RequestParam String newPassword) {
+
+        userService.resetPassword(email, newPassword);
+        return ResponseEntity.ok(new ApiResponse<>(true, "비밀번호 재설정 성공", null));
+    }
     // 이미지 업로드 메서드
     @PutMapping(value = "/{email}/image")
     public ResponseEntity<ApiResponse<String>> uploadUserImage(
