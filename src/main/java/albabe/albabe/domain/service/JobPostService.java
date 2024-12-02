@@ -223,10 +223,16 @@ public class JobPostService {
     }
 
     public List<JobPostResponse> getJobPosts(String email) {
-        List<JobPostEntity> jobPosts = jobPostRepository.findJobPostsByEmail(email);
-        // 이메일이 제공되었지만 해당 이메일로 공고가 조회되지 않는 경우
-        if (email != null && !email.isEmpty() && jobPosts.isEmpty()) {
-            throw new IllegalArgumentException("입력한 이메일로 조회된 공고가 없습니다.");
+        List<JobPostEntity> jobPosts;
+
+        if (email != null && !email.isEmpty()) {
+            jobPosts = jobPostRepository.findByCompany_EmailOrderByCreatedAtDesc(email);
+            // 이메일이 제공되었지만 해당 이메일로 공고가 조회되지 않는 경우
+            if (jobPosts.isEmpty()) {
+                throw new IllegalArgumentException("입력한 이메일로 조회된 공고가 없습니다.");
+            }
+        } else {
+            jobPosts = jobPostRepository.findAllByOrderByCreatedAtDesc();
         }
         return jobPosts.stream()
                 .map(this::convertToDto)

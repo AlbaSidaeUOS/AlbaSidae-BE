@@ -14,8 +14,18 @@ public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
     // 이메일이 제공되지 않을 경우 전체 조회
     @Query("SELECT jp FROM JobPostEntity jp WHERE :email IS NULL OR jp.company.email = :email")
     List<JobPostEntity> findJobPostsByEmail(@Param("email") String email);
+
+
+    // 이메일이 없는 경우, 모든 공고를 최신순으로 정렬
+    List<JobPostEntity> findAllByOrderByCreatedAtDesc();
+
+    // 이메일이 있는 경우, 해당 이메일의 공고를 최신순으로 정렬
+    List<JobPostEntity> findByCompany_EmailOrderByCreatedAtDesc(String email);
+
     List<JobPostEntity> findTop12ByOrderByCreatedAtDesc();
+
     List<JobPostEntity> findTop12ByOrderByApplicantCountDesc();
+
     List<JobPostEntity> findAllByCompany(UserEntity company);
 
     @Query(value = "SELECT DISTINCT post.* " +
