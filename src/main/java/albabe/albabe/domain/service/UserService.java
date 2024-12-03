@@ -254,7 +254,7 @@ public class UserService {
         }
         return user.orElseThrow(() -> new IllegalArgumentException("일치하는 사용자 정보를 찾을 수 없습니다.")).getEmail();
     }
-
+    /*
     // 비밀번호 재설정 메서드
     public void resetPassword(String email, String name, String phone, UserRole role, String businessNumber, String newPassword) {
         // 유효성 검사
@@ -271,6 +271,29 @@ public class UserService {
         UserEntity userEntity = user.orElseThrow(() -> new IllegalArgumentException("일치하는 사용자 정보를 찾을 수 없습니다."));
         userEntity.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(userEntity);
+    }*/
+
+    public boolean verifyUser(String email, String name, String phone, UserRole role, String businessNumber) {
+        Optional<UserEntity> user;
+        if (role == UserRole.PERSONAL) {
+            user = userRepository.findByEmailAndNameAndPhoneAndRole(email, name, phone, role);
+        } else {
+            user = userRepository.findByEmailAndNameAndPhoneAndRoleAndBusinessNumber(email, name, phone, role, businessNumber);
+        }
+        return user.isPresent();
+    }
+
+    // 비밀번호 재설정 메서드
+    public void resetPassword(String email, String newPassword) {
+        if (newPassword.length() < 8 || newPassword.length() > 15) {
+            throw new IllegalArgumentException("비밀번호는 8자에서 15자 사이여야 합니다.");
+        }
+
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일의 사용자를 찾을 수 없습니다."));
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 
     public String uploadUserImage(String email, MultipartFile file) {
