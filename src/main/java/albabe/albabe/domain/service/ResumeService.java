@@ -6,6 +6,7 @@ import albabe.albabe.domain.dto.ResumeDto;
 import albabe.albabe.domain.entity.JobPostEntity;
 import albabe.albabe.domain.entity.ResumeEntity;
 import albabe.albabe.domain.entity.UserEntity;
+import albabe.albabe.domain.enums.UserRole;
 import albabe.albabe.domain.repository.ResumeRepository;
 import albabe.albabe.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,11 +108,18 @@ public class ResumeService {
         ResumeEntity resume = resumeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("이력서를 찾을 수 없습니다."));
 
-        if (!resume.getPersonal().getEmail().equals(email)) {
+        if (!resume.getPersonal().getEmail().equals(email) && !isAdmin(email)) {
             throw new IllegalArgumentException("해당 이력서를 삭제할 권한이 없습니다.");
         }
 
         resumeRepository.delete(resume);
+    }
+
+    // 관리자인지 확인하는 메서드
+    private boolean isAdmin(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        return user.getRole() == UserRole.ADMIN; // UserRole을 이용해 ADMIN 확인
     }
 
     private ResumeDto convertToDto(ResumeEntity resume) {
