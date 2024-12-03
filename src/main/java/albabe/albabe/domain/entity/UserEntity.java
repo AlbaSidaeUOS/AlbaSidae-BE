@@ -32,6 +32,7 @@ public class UserEntity {
 
     private String phone;
 
+    @Column(unique = true)
     private String businessNumber;
 
     private String image;
