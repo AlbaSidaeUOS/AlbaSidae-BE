@@ -7,8 +7,10 @@ import albabe.albabe.domain.entity.JobPostEntity;
 import albabe.albabe.domain.entity.ResumeEntity;
 import albabe.albabe.domain.entity.UserEntity;
 import albabe.albabe.domain.enums.UserRole;
+import albabe.albabe.domain.repository.JobApplicationRepository;
 import albabe.albabe.domain.repository.ResumeRepository;
 import albabe.albabe.domain.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +22,12 @@ public class ResumeService {
 
     @Autowired
     private ResumeRepository resumeRepository;
+
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JobApplicationRepository jobApplicationRepository;
 
     public ResumeDto createResume(ResumeEntity resumeEntity, String email) {
         UserEntity personal = userRepository.findByEmail(email)
@@ -104,6 +110,7 @@ public class ResumeService {
         return convertToDto(savedResume);
     }
 
+    @Transactional
     public void deleteResume(Long id, String email) {
         ResumeEntity resume = resumeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("이력서를 찾을 수 없습니다."));
@@ -111,6 +118,9 @@ public class ResumeService {
         if (!resume.getPersonal().getEmail().equals(email) && !isAdmin(email)) {
             throw new IllegalArgumentException("해당 이력서를 삭제할 권한이 없습니다.");
         }
+
+        // 이력서를 참조하는 지원 내역 삭제
+        jobApplicationRepository.deleteByResume(resume);
 
         resumeRepository.delete(resume);
     }

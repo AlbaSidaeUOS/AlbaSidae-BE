@@ -2,6 +2,7 @@ package albabe.albabe.domain.repository;
 
 import albabe.albabe.domain.entity.JobApplicationEntity;
 import albabe.albabe.domain.entity.JobPostEntity;
+import albabe.albabe.domain.entity.ResumeEntity;
 import albabe.albabe.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +19,8 @@ public interface JobApplicationRepository extends JpaRepository<JobApplicationEn
 
     @Query("SELECT app.jobPost FROM JobApplicationEntity app WHERE app.applicant.email = :email")
     List<JobPostEntity> findJobPostsByUserEmail(@Param("email") String email);
+
+    void deleteByJobPost(JobPostEntity jobPost);
+    void deleteByResume(ResumeEntity resume);
 
 }

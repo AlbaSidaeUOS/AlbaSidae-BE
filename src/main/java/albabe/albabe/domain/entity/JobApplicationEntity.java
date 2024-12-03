@@ -3,6 +3,8 @@ package albabe.albabe.domain.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -16,6 +18,7 @@ public class JobApplicationEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_post_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private JobPostEntity jobPost; // 지원한 공고
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,6 +27,7 @@ public class JobApplicationEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resume_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ResumeEntity resume; // 이력서
 
     private String description; // 자기소개
