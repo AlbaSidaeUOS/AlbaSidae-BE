@@ -30,6 +30,7 @@ public class JobApplicationEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ResumeEntity resume; // 이력서
 
+    @Column(length = 1023)
     private String description; // 자기소개
 
     @PostPersist

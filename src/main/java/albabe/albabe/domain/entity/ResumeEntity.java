@@ -15,10 +15,14 @@ public class ResumeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String resumeTitle;
+
+    @Column(length = 1023)
     private String selfIntroduction;
 
     // New Fields for Education and Preferences
     private String educationLevel; // 최종학력
+
+    @Column(length = 1023)
     private String career; // 경력
 
     @ElementCollection
