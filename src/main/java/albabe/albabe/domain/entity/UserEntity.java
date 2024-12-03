@@ -30,6 +30,7 @@ public class UserEntity {
 
     private String gender;
 
+    @Column(unique = true)
     private String phone;
 
     @Column(unique = true)
