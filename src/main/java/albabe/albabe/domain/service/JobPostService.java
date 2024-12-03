@@ -261,6 +261,8 @@ public class JobPostService {
         existingJobPost.setTitle(updatedJobPost.getTitle());
         existingJobPost.setCompanyName(updatedJobPost.getCompanyName());
         existingJobPost.setCompanyContent(updatedJobPost.getCompanyContent());
+        existingJobPost.setPlace(updatedJobPost.getPlace());
+        existingJobPost.setPlaceDetail(updatedJobPost.getPlaceDetail());
         existingJobPost.setWorkCategory(updatedJobPost.getWorkCategory());
         existingJobPost.setWorkType(updatedJobPost.getWorkType());
         existingJobPost.setPeopleNum(updatedJobPost.getPeopleNum());
