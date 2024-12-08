@@ -11,6 +11,7 @@ import albabe.albabe.domain.repository.JobPostRepository;
 import albabe.albabe.domain.repository.ResumeRepository;
 import albabe.albabe.domain.repository.UserRepository;
 import albabe.albabe.security.JwtTokenProvider;
+import albabe.albabe.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -70,9 +71,9 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호는 8자에서 15자 사이여야 합니다.");
         }
 
-        // 생년월일 길이 확인 (6자리)
-        if (userDto.getRole() == UserRole.PERSONAL && userDto.getBirthDate().length() != 6) {
-            throw new IllegalArgumentException("생년월일은 6자리여야 합니다. (예: YYMMDD)");
+        // 생년월일 유효성 검증
+        if (userDto.getRole() == UserRole.PERSONAL && !ValidationUtils.isValidBirthDate(userDto.getBirthDate())) {
+            throw new IllegalArgumentException("생년월일이 올바르지 않습니다. (예: YYMMDD, 유효한 날짜만 허용)");
         }
 
         // 사업자 번호 길이 확인 (10자리)
@@ -196,6 +197,16 @@ public class UserService {
                 throw new IllegalArgumentException("비밀번호는 8자에서 15자 사이여야 합니다.");
             }
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+
+        // 생년월일 유효성 검증
+        if (user.getRole() == UserRole.PERSONAL && !ValidationUtils.isValidBirthDate(userDto.getBirthDate())) {
+            throw new IllegalArgumentException("생년월일이 올바르지 않습니다. (예: YYMMDD, 유효한 날짜만 허용)");
+        }
+
+        // 핸드폰 번호 길이 확인 (11자리)
+        if (userDto.getPhone().length() != 11) {
+            throw new IllegalArgumentException("핸드폰 번호는 11자리여야 합니다.");
         }
 
         user.setName(userDto.getName());
