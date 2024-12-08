@@ -99,6 +99,7 @@ public class ResumeService {
         existingResume.setResumeTitle(updatedResumeDto.getResumeTitle());
         existingResume.setSelfIntroduction(updatedResumeDto.getSelfIntroduction());
         existingResume.setEducationLevel(updatedResumeDto.getEducationLevel());
+        existingResume.setCareer(updatedResumeDto.getCareer());
         existingResume.setPreferredWorkLocation(updatedResumeDto.getPreferredWorkLocation());
         existingResume.setPreferredJobTypes(updatedResumeDto.getPreferredJobTypes());
         existingResume.setEmploymentTypes(updatedResumeDto.getEmploymentTypes());
