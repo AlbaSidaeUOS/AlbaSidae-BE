@@ -119,7 +119,7 @@ public class UserService {
 
         // 2. 비밀번호 길이 확인
         if (password.length() < 8 || password.length() > 15) {
-            throw new IllegalArgumentException("비밀번호는 8자에서 15자 사이여야 합니다.");
+            throw new IllegalArgumentException("이메일 또는 비밀번호가 일치하지 않습니다.");
         }
 
         // 3. 이메일 또는 비밀번호가 일치하지 않는 경우
