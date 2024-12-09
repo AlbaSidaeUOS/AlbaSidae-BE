@@ -41,7 +41,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(List.of("*"));  // 모든 도메인 허용 (개발 시 사용, 운영 시 특정 도메인으로 제한)
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "ngrok-skip-browser-warning"));
         configuration.setAllowCredentials(true);  // 자격 증명(쿠키 등) 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
