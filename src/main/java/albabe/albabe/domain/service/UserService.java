@@ -1,15 +1,9 @@
 package albabe.albabe.domain.service;
 
 import albabe.albabe.domain.dto.UserDto;
-import albabe.albabe.domain.entity.JobApplicationEntity;
-import albabe.albabe.domain.entity.JobPostEntity;
-import albabe.albabe.domain.entity.ResumeEntity;
-import albabe.albabe.domain.entity.UserEntity;
+import albabe.albabe.domain.entity.*;
 import albabe.albabe.domain.enums.UserRole;
-import albabe.albabe.domain.repository.JobApplicationRepository;
-import albabe.albabe.domain.repository.JobPostRepository;
-import albabe.albabe.domain.repository.ResumeRepository;
-import albabe.albabe.domain.repository.UserRepository;
+import albabe.albabe.domain.repository.*;
 import albabe.albabe.security.JwtTokenProvider;
 import albabe.albabe.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +27,8 @@ public class UserService {
     private final ResumeRepository resumeRepository;
     private final JobPostRepository jobPostRepository;
     private final JobApplicationRepository jobApplicationRepository;
+    @Autowired
+    private TimeTableRepository timeTableRepository;
 
     public UserService(UserRepository userRepository, ResumeRepository resumeRepository,
                        JobPostRepository jobPostRepository, JobApplicationRepository jobApplicationRepository) {
@@ -255,7 +251,13 @@ public class UserService {
             jobPostRepository.deleteAll(jobPosts);
         }
 
-        // 3. 사용자 삭제
+        // 3. 이력서 삭제
+        Optional<TimeTableEntity> timetable = timeTableRepository.findByEmail(user.getEmail());
+        if (!timetable.isEmpty()) {
+            timeTableRepository.delete(timetable.get());
+        }
+
+        // 4. 사용자 삭제
         userRepository.delete(user);
     }
 
