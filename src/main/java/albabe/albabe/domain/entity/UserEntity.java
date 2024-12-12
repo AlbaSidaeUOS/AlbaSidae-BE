@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+    Description : 회원 Entity 소스파일
+ */
+
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email")) // 이메일 중복 방지
 @Getter

@@ -8,6 +8,10 @@ import albabe.albabe.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/*
+    Description : 시간표 Service 소스파일. 시간표 등록/수정/조회 함수 구현
+ */
+
 @Service
 public class TimeTableService {
 

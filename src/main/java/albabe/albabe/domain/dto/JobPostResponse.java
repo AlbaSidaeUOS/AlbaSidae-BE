@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/*
+    Description : 모집 공고 Dto 소스파일
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

@@ -9,6 +9,10 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.util.UUID;
 
+/*
+    Description : S3 기능 중 파일 업로드 기능을 맡은 소스파일
+ */
+
 @Service
 public class S3Service {
 

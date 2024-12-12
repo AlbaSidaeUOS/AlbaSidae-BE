@@ -9,6 +9,10 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
+/*
+    Description :  S3 서비스를 이용하기 위한 설정 소스파일
+ */
+
 @Configuration
 public class AwsConfig {
 

@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+    Description : 모집 공고 Entity 소스파일
+ */
+
 @Getter
 @Setter
 @Entity

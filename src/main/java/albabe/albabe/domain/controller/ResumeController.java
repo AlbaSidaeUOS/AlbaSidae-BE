@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+    Description : 이력서와 관련된 컨트롤러 소스파일
+ */
+
 @RestController
 @RequestMapping("/api/resumes")
 public class ResumeController {

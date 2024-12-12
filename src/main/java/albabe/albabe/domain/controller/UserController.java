@@ -13,6 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+/*
+    Description : 회원과 관련된 컨트롤러 소스파일
+ */
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

@@ -20,6 +20,11 @@ import java.util.regex.Pattern;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+    Description :  회원 Service 소스파일. 회원가입, 로그인, 아이디/비밀번호 찾기,
+    회원 정보 수정, 사용자 삭제, 유저 이미지 업로드 함수 구현
+ */
+
 @Service
 public class UserService {
 

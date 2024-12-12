@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+    Description : 시간표 등록과 관련된 컨트롤러 소스파일
+ */
+
 @RestController
 @RequestMapping("/api/timetable")
 public class TimeTableController {

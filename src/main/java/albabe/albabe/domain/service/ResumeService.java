@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+    Description : 이력서 Service 소스파일. 이력서 등록/수정/삭제 관련 함수들 구현
+ */
+
 @Service
 public class ResumeService {
 

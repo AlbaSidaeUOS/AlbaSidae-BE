@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+    Description : 알바 지원에 관련된 컨트롤러 소스파일
+ */
+
 @RestController
 @RequestMapping("/api/job-applications")
 public class JobApplicationController {

@@ -9,6 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+/*
+    Description : 모집 공고 Repository 소스파일. 모집 공고 정렬, 찾기, 필터링된 모집 공고 조회, 검색 함수 존재
+ */
+
 @Repository
 public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
     // 이메일이 제공되지 않을 경우 전체 조회

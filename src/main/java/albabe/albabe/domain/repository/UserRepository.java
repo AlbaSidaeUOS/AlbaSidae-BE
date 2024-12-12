@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/*
+    Description : 회원 Repository 소스파일. 사용자 찾기 함수 존재
+ */
+
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 

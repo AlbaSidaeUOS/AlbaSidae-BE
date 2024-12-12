@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 
 import java.util.List;
 
+/*
+    Description : 이력서 Repository 소스파일. 이력서 찾기 함수 존재
+ */
+
 @Repository
 public interface ResumeRepository extends JpaRepository<ResumeEntity, Long> {
     // 이메일이 제공되지 않을 경우 전체 조회

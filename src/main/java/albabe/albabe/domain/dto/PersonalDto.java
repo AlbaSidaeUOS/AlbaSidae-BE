@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/*
+    Description : 개인 회원 Dto 소스파일
+ */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

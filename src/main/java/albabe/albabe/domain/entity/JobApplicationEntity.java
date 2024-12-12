@@ -6,6 +6,10 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+/*
+    Description : 알바 지원 Entity 소스파일
+ */
+
 @Getter
 @Setter
 @Entity

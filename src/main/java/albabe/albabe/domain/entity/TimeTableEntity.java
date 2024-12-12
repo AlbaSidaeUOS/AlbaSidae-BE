@@ -8,6 +8,10 @@ import albabe.albabe.domain.dto.TimeTableDto;
 
 import java.util.List;
 
+/*
+    Description : 시간표 Entity 소스파일
+ */
+
 @Entity
 @Table(name = "timetable")
 @Getter

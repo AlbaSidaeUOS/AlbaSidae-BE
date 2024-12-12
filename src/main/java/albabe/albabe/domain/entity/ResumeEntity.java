@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
 
+/*
+    Description : 이력서 Entity 소스파일
+ */
+
 @Getter
 @Setter
 @Entity

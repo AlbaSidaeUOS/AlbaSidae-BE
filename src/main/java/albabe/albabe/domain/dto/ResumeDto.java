@@ -7,6 +7,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+/*
+    Description : 이력서 Dto 소스파일
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

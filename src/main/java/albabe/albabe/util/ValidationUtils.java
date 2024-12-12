@@ -2,6 +2,10 @@ package albabe.albabe.util;
 
 import java.util.regex.Pattern;
 
+/*
+    Description : 생년월일 양식 검증하는 소스파일
+ */
+
 public class ValidationUtils {
 
     // 수정된 정규 표현식: YYMMDD 형식

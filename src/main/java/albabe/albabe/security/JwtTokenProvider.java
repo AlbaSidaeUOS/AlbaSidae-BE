@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
+/*
+    Description : Jwt Token에 관한 소스파일
+ */
+
 @Component
 public class JwtTokenProvider {
 

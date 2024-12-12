@@ -12,6 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+/*
+    Description : 모집 공고와 관련된 컨트롤러 소스파일
+ */
+
 @RestController
 @RequestMapping("/api/job-posts")
 public class JobPostController {

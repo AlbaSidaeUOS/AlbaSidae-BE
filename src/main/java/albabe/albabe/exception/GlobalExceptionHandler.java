@@ -6,6 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/*
+    Description : 예외 처리에 관한 소스파일
+ */
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

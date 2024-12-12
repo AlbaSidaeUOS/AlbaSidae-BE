@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+    Description : 알바 지원 Dto 소스파일
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

@@ -10,6 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+/*
+    Description : 알바 지원 Repository 소스파일. 모집 공고 찾기, 삭제 함수 존재
+ */
+
 public interface JobApplicationRepository extends JpaRepository<JobApplicationEntity, Long> {
     List<JobApplicationEntity> findByJobPost(JobPostEntity jobPost);
     boolean existsByJobPostAndApplicant(JobPostEntity jobPost, UserEntity applicant);

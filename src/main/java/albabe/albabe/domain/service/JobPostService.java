@@ -21,6 +21,10 @@ import java.util.stream.Collectors;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+/*
+    Description : 모집 공고 Service 소스파일. 필터링 기능 함수, 공고 관련 함수들 구현
+ */
+
 @Service
 public class JobPostService {
 

@@ -17,6 +17,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+    Description : 알바 지원 Service 소스파일. 알바 지원 관련 함수들,
+    JobPostEntity를 JobPostDto로 변환하는 함수 구현
+ */
+
 @Service
 public class JobApplicationService {
 

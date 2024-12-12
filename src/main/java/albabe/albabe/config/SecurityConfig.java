@@ -13,6 +13,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+/*
+    Description : 보안 관련 설정 소스파일
+ */
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
